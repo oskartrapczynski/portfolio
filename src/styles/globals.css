@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 8%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 180 100% 50%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      'Inter',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      'Roboto',
+      sans-serif;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00ffff;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00cccc;
+}
+
+/* Neon glow effects */
+.neon-border {
+  border: 1px solid #00ffff;
+  box-shadow:
+    0 0 5px #00ffff,
+    inset 0 0 5px #00ffff;
+}
+
+.neon-text {
+  color: #000;
+  text-shadow:
+    0 0 10px #00ffff,
+    0 0 20px #00ffff,
+    0 0 30px #00ffff;
+}
+
+.neon-box {
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.3),
+    0 0 40px rgba(0, 255, 255, 0.2);
+}
+
+/* Grid background */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center center;
+}
+
+/* Scanline effect */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(transparent, rgba(0, 255, 255, 0.5), transparent);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
