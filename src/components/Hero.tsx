@@ -69,15 +69,16 @@ export default function Hero() {
 
       {/* Main content */}
       <div className="relative z-10 text-center max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        {/* Nagłówek hero — wyłania się przy wjeździe i zostaje nad taglinem */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.9, ease: 'easeOut' }}
+          className="text-5xl md:text-7xl font-bold mb-8 neon-text"
         >
-          <h1 className="text-7xl md:text-9xl font-bold mb-6 neon-text">
-            Oskar T.T
-          </h1>
-        </motion.div>
+          welcome in my world
+        </motion.h1>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

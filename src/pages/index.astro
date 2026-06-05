@@ -1,20 +1,43 @@
 ---
 import Layout from '../components/Layout.astro'
+import SmoothScroll from '../components/SmoothScroll'
+import ScrollVideo from '../components/ScrollVideo'
 import Navigation from '../components/Navigation'
 import Hero from '../components/Hero'
 import About from '../components/About'
 import Projects from '../components/Projects'
 import Contact from '../components/Contact'
 import Footer from '../components/Footer'
+import Parallax from '../components/Parallax'
 ---
 
 <Layout title="Oskar T.T - Fullstack Developer & Creative">
-  <main class="relative overflow-x-hidden">
+  <!-- Płynny scroll (Lenis). Usuń tę linię, by wyłączyć. -->
+  <SmoothScroll client:load />
+
+  <main class="relative overflow-x-clip">
     <Navigation client:load />
-    <Hero client:load />
-    <About client:load />
-    <Projects client:load />
-    <Contact client:load />
+
+    <!-- Kinowe intro: film scrubowany scrollem (klatki WebP na canvasie) -->
+    <ScrollVideo client:load />
+
+    <!-- Hero mocno wsuwa się na końcówkę filmu (overlap), gdy strona zaczyna scroll w dół -->
+    <div class="relative z-10 -mt-[110vh] bg-background">
+      <Hero client:load />
+    </div>
+
+    <Parallax client:visible offset={50}>
+      <About client:visible />
+    </Parallax>
+
+    <Parallax client:visible offset={70}>
+      <Projects client:visible />
+    </Parallax>
+
+    <Parallax client:visible offset={50}>
+      <Contact client:visible />
+    </Parallax>
+
     <Footer client:load />
   </main>
 </Layout>
