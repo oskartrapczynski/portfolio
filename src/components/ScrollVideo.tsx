@@ -2,9 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
 
 const FRAME_COUNT = 168
-const SCROLL_HEIGHT = '300vh' // wysokość sekcji = długość scrubowania
-// Klatki kończą scrub wcześniej niż koniec sekcji, dzięki czemu ostatnie
-// klatki (166–168) grają, gdy hero zaczyna już wsuwać się na film (mocny overlap).
+const SCROLL_HEIGHT = '300vh'
 const SCRUB_END = 0.58
 
 const framePath = (i: number) =>
@@ -17,19 +15,30 @@ export default function ScrollVideo() {
   const [loaded, setLoaded] = useState(0)
   const ready = loaded >= FRAME_COUNT
 
-  // Postęp scrolla wewnątrz tej sekcji (0 → 1)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
   })
 
-  // Mapa: postęp scrolla → indeks klatki (kończy na SCRUB_END, potem trzyma 168)
   const frameIndex = useTransform(scrollYProgress, [0, SCRUB_END], [1, FRAME_COUNT])
-
-  // Wskazówka scrollowania zanika gdy film rusza
   const hintOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0])
 
-  // Preload wszystkich klatek
+  const fadeRef = useRef({ start: Infinity, span: 1 })
+  useEffect(() => {
+    const measure = () => {
+      const el = sectionRef.current
+      if (!el) return
+      const vh = window.innerHeight
+      const bottomDoc =
+        el.getBoundingClientRect().top + window.scrollY + el.offsetHeight
+      const pEnd = bottomDoc - vh // scrollY przy progress = 1
+      fadeRef.current = { start: pEnd + vh * 0.55, span: vh * 0.5 }
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [])
+
   useEffect(() => {
     let cancelled = false
     const imgs: HTMLImageElement[] = []
@@ -50,7 +59,6 @@ export default function ScrollVideo() {
     }
   }, [])
 
-  // Rysuje klatkę z dopasowaniem "cover" (wypełnia ekran bez deformacji)
   const drawFrame = (index: number) => {
     const canvas = canvasRef.current
     const img = imagesRef.current[Math.min(FRAME_COUNT, Math.max(1, Math.round(index))) - 1]
@@ -68,7 +76,12 @@ export default function ScrollVideo() {
 
     const iw = img.naturalWidth
     const ih = img.naturalHeight
-    const scale = Math.max((cw * dpr) / iw, (ch * dpr) / ih)
+    // Cover when the viewport is at least as wide (relative to height) as the
+    // source frame; otherwise contain (letterbox) so narrow/portrait screens
+    // see the whole frame instead of a heavily cropped, over-wide center crop.
+    const cover = cw / ch >= iw / ih
+    const fit = cover ? Math.max : Math.min
+    const scale = fit((cw * dpr) / iw, (ch * dpr) / ih)
     const dw = iw * scale
     const dh = ih * scale
     const dx = (cw * dpr - dw) / 2
@@ -78,10 +91,8 @@ export default function ScrollVideo() {
     ctx.drawImage(img, dx, dy, dw, dh)
   }
 
-  // Przerysuj przy zmianie klatki
   useMotionValueEvent(frameIndex, 'change', (v) => drawFrame(v))
 
-  // Pierwsze odrysowanie gdy klatki gotowe + obsługa resize
   useEffect(() => {
     drawFrame(frameIndex.get())
     const onResize = () => drawFrame(frameIndex.get())
@@ -91,19 +102,14 @@ export default function ScrollVideo() {
   }, [loaded])
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative z-0"
-      style={{ height: SCROLL_HEIGHT }}
-    >
-      {/* Przyklejony ekran ze sceną */}
+      <section
+        ref={sectionRef}
+        className="relative z-0"
+        style={{ height: SCROLL_HEIGHT }}
+      >
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
         <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
-
-        {/* Subtelne winietowanie krawędzi dla głębi */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
-
-        {/* Pasek ładowania klatek */}
         {!ready && (
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black">
             <p className="mb-4 font-mono text-sm tracking-widest text-neon-cyan">
@@ -117,8 +123,6 @@ export default function ScrollVideo() {
             </div>
           </div>
         )}
-
-        {/* Wskazówka scrollowania */}
         <motion.div
           style={{ opacity: hintOpacity }}
           className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 font-mono text-xs tracking-[0.3em] text-white/60"
@@ -126,6 +130,6 @@ export default function ScrollVideo() {
           SCROLL ↓
         </motion.div>
       </div>
-    </section>
+      </section>
   )
 }

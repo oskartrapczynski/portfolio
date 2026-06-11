@@ -1,8 +1,21 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { easeOut, motion, useScroll, useTransform } from 'framer-motion'
 import { Github, Linkedin, Mail, Twitter, Instagram, Music } from 'lucide-react'
 import { Button } from './ui/button'
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'start start'],
+  })
+
+  const brandOpacity = useTransform(scrollYProgress, [0.15, 0.45], [0, 1])
+   const brandY = useTransform(scrollYProgress, [0.15, 0.6], [-450, 0], {
+    ease: easeOut
+  })
+
   const socialLinks = [
     { icon: Github, href: '#', label: 'GitHub', color: 'hover:text-neon-cyan' },
     {
@@ -33,14 +46,12 @@ export default function Hero() {
   ]
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
-      {/* Animated grid background */}
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen flex items-center justify-center overflow-x-clip px-4"
+    >
       <div className="absolute inset-0 grid-bg opacity-20"></div>
-
-      {/* Scanline effect */}
       <div className="scanline absolute inset-0"></div>
-
-      {/* Floating geometric shapes */}
       <motion.div
         className="absolute top-20 left-10 w-32 h-32 border-2 border-neon-cyan opacity-20"
         animate={{
@@ -53,7 +64,6 @@ export default function Hero() {
           ease: 'linear',
         }}
       />
-
       <motion.div
         className="absolute bottom-20 right-10 w-40 h-40 border-2 border-neon-blue opacity-20 rounded-full"
         animate={{
@@ -66,20 +76,15 @@ export default function Hero() {
           ease: 'linear',
         }}
       />
-
-      {/* Main content */}
       <div className="relative z-10 text-center max-w-5xl mx-auto">
-        {/* Nagłówek hero — wyłania się przy wjeździe i zostaje nad taglinem */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.9, ease: 'easeOut' }}
-          className="text-5xl md:text-7xl font-bold mb-8 neon-text"
+        <motion.div
+          style={{ opacity: brandOpacity, y: brandY }}
+          className="relative z-20 mb-6"
         >
-          welcome in my world
-        </motion.h1>
-
+          <span className="neon-text text-center text-4xl font-bold md:text-7xl">
+            welcome in my world
+          </span>
+        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -93,8 +98,6 @@ export default function Hero() {
             Crafting digital experiences through code, sound, and visuals
           </p>
         </motion.div>
-
-        {/* Social links */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -116,8 +119,6 @@ export default function Hero() {
             </motion.a>
           ))}
         </motion.div>
-
-        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -149,8 +150,6 @@ export default function Hero() {
             About Me
           </Button>
         </motion.div>
-
-        {/* Scroll indicator */}
         <motion.div
           className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
           animate={{
