@@ -2,6 +2,16 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Button } from './ui/button'
 import { Mail, MapPin, Send } from 'lucide-react'
+import { ICONS, SocialIcon } from './SocialIcon'
+
+const socialLinks = [
+  { icon: ICONS.github, href: '#', label: 'GitHub', color: 'hover:text-neon-cyan' },
+  { icon: ICONS.linkedin, href: '#', label: 'LinkedIn', color: 'hover:text-neon-blue' },
+  { icon: ICONS.x, href: '#', label: 'Twitter', color: 'hover:text-neon-cyan' },
+  { icon: ICONS.instagram, href: '#', label: 'Instagram', color: 'hover:text-neon-blue' },
+  { icon: ICONS.soundcloud, href: '#', label: 'SoundCloud', color: 'hover:text-neon-cyan' },
+  { icon: ICONS.gmail, href: '#', label: 'Email', color: 'hover:text-neon-blue' },
+]
 
 export default function Contact() {
   const ref = useRef(null)
@@ -23,28 +33,24 @@ export default function Contact() {
             Have a project in mind or just want to chat about tech, music, or
             design? Let's connect and create something amazing together.
           </p>
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap justify-center gap-4 mb-12"
           >
-            <div className="bg-black/70 backdrop-blur-sm border border-gray-800 rounded-lg p-8 hover:border-neon-cyan transition-all duration-300 neon-box">
-              <Mail className="w-12 h-12 text-neon-cyan mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-white mb-2 font-mono">
-                Email
-              </h3>
-              <p className="text-gray-400">your.email@example.com</p>
-            </div>
-
-            <div className="bg-black/70 backdrop-blur-sm border border-gray-800 rounded-lg p-8 hover:border-neon-cyan transition-all duration-300 neon-box">
-              <MapPin className="w-12 h-12 text-neon-cyan mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-white mb-2 font-mono">
-                Location
-              </h3>
-              <p className="text-gray-400">Your City, Country</p>
-            </div>
+            {socialLinks.map((link) => (
+              <motion.a
+                key={link.label}
+                href={link.href}
+                aria-label={link.label}
+                whileHover={{ scale: 1.1, y: -5 }}
+                whileTap={{ scale: 0.95 }}
+                className={`p-3 border border-gray-700 rounded-lg bg-black/50 backdrop-blur-sm transition-all duration-300 ${link.color}`}
+              >
+                <SocialIcon icon={link.icon} className="w-6 h-6" />
+              </motion.a>
+            ))}
           </motion.div>
 
           <motion.div

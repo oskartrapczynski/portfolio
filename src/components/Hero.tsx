@@ -1,6 +1,5 @@
 import { useRef } from 'react'
 import { easeOut, motion, useScroll, useTransform } from 'framer-motion'
-import { Github, Linkedin, Mail, Twitter, Instagram, Music } from 'lucide-react'
 import { Button } from './ui/button'
 
 export default function Hero() {
@@ -15,35 +14,6 @@ export default function Hero() {
    const brandY = useTransform(scrollYProgress, [0.15, 0.6], [-450, 0], {
     ease: easeOut
   })
-
-  const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub', color: 'hover:text-neon-cyan' },
-    {
-      icon: Linkedin,
-      href: '#',
-      label: 'LinkedIn',
-      color: 'hover:text-neon-blue',
-    },
-    {
-      icon: Twitter,
-      href: '#',
-      label: 'Twitter',
-      color: 'hover:text-neon-cyan',
-    },
-    {
-      icon: Instagram,
-      href: '#',
-      label: 'Instagram',
-      color: 'hover:text-neon-blue',
-    },
-    {
-      icon: Music,
-      href: '#',
-      label: 'SoundCloud',
-      color: 'hover:text-neon-cyan',
-    },
-    { icon: Mail, href: '#', label: 'Email', color: 'hover:text-neon-blue' },
-  ]
 
   return (
     <section
@@ -82,7 +52,7 @@ export default function Hero() {
           className="relative z-20 mb-6"
         >
           <span className="neon-text text-center text-4xl font-bold md:text-7xl">
-            welcome in my world
+            Welcome in my world
           </span>
         </motion.div>
         <motion.div
@@ -92,32 +62,11 @@ export default function Hero() {
           className="mb-8"
         >
           <p className="text-2xl md:text-4xl text-neon-cyan font-mono mb-4">
-            {'<'} Fullstack Developer {'>'}
+            {'<'} World of art and creativity {'>'}
           </p>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
             Crafting digital experiences through code, sound, and visuals
           </p>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
-        >
-          {socialLinks.map((link, index) => (
-            <motion.a
-              key={link.label}
-              href={link.href}
-              whileHover={{ scale: 1.1, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              className={`p-3 border border-gray-700 rounded-lg bg-black/50 backdrop-blur-sm transition-all duration-300 ${link.color}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 + index * 0.1 }}
-            >
-              <link.icon className="w-6 h-6" />
-            </motion.a>
-          ))}
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
