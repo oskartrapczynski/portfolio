@@ -2,6 +2,7 @@ import { forwardRef, useRef } from 'react'
 import {
   easeOut,
   motion,
+  useMotionTemplate,
   useScroll,
   useTransform,
   type HTMLMotionProps,
@@ -32,17 +33,16 @@ export const WelcomeInMyWorld = forwardRef<
     [0, 1, 1, 1, 1, 1, 0, 0, 0]
   )
 
-  const textColor = useTransform(scrollYProgress, glowFrames, [
-    '#000',
-    '#000',
-    '#000',
-    '#000',
-    '#000',
-    '#000',
-    '#000',
-    '#00ffff',
-    '#00ffff',
-  ])
+  // Stopień "zapalenia" napisu (0 = czarny, 1 = pełny akcent). Tym samym
+  // timingiem co wcześniej, ale kolor docelowy bierzemy z --hero-accent, więc
+  // napis podąża za akcentem najechanej karty zamiast stałego cyjanu.
+  const reveal = useTransform(
+    scrollYProgress,
+    glowFrames,
+    [0, 0, 0, 0, 0, 0, 0, 1, 1]
+  )
+  const revealPct = useTransform(reveal, (v) => `${v * 100}%`)
+  const textColor = useMotionTemplate`color-mix(in srgb, var(--hero-accent, #00ffff) ${revealPct}, #000000)`
 
   const brandOpacity = useTransform(scrollYProgress, [0.15, 0.45], [0, 1])
 
@@ -59,23 +59,21 @@ export const WelcomeInMyWorld = forwardRef<
         style={{ opacity: brandOpacity, y: brandY }}
         className="relative"
       >
-        {/* Warstwa poświaty: STATYCZNY text-shadow (akcent), a migotanie robimy
-          tylko przez opacity — kompozyt na GPU zamiast repaintu blurowanego
-          cienia na dużym foncie co klatkę (kluczowe dla płynności na iOS). */}
+        {/*glow text */}
         <motion.span
           aria-hidden
           style={{
             opacity: glow,
-            textShadow:
-              '0 0 10px var(--hero-accent, #00ffff), 0 0 20px var(--hero-accent, #00ffff), 0 0 30px var(--hero-accent, #00ffff)',
+            textShadow: '0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff',
           }}
           className="pointer-events-none absolute inset-0 text-center text-4xl font-bold text-transparent md:text-7xl"
         >
           Welcome in my world
         </motion.span>
+        {/* main text */}
         <motion.span
           style={{ color: textColor }}
-          className="text-neon-cyan relative text-center text-4xl font-bold md:text-7xl"
+          className="text-neon-cyan relative text-center text-4xl font-bold duration-250 transition-colors md:text-7xl"
         >
           Welcome in my world
         </motion.span>
