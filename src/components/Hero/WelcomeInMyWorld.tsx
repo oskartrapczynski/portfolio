@@ -2,7 +2,6 @@ import { forwardRef, useRef } from 'react'
 import {
   easeOut,
   motion,
-  useMotionTemplate,
   useScroll,
   useTransform,
   type HTMLMotionProps,
@@ -30,10 +29,8 @@ export const WelcomeInMyWorld = forwardRef<
   const glow = useTransform(
     scrollYProgress,
     glowFrames,
-    [0, 1, 0, 1, 0, 1, 0, 1, 0]
+    [0, 1, 1, 1, 1, 1, 0, 0, 0]
   )
-
-  const glowPct = useTransform(glow, (v) => `${v * 100}%`)
 
   const textColor = useTransform(scrollYProgress, glowFrames, [
     '#000',
@@ -47,8 +44,6 @@ export const WelcomeInMyWorld = forwardRef<
     '#00ffff',
   ])
 
-  const brandTextShadow = useMotionTemplate`0 0 10px color-mix(in srgb, var(--hero-accent, #00ffff) ${glowPct}, transparent), 0 0 20px color-mix(in srgb, var(--hero-accent, #00ffff) ${glowPct}, transparent), 0 0 30px color-mix(in srgb, var(--hero-accent, #00ffff) ${glowPct}, transparent)`
-
   const brandOpacity = useTransform(scrollYProgress, [0.15, 0.45], [0, 1])
 
   // Łączymy ref wewnętrzny z ewentualnie przekazanym z zewnątrz.
@@ -60,10 +55,27 @@ export const WelcomeInMyWorld = forwardRef<
 
   return (
     <motion.div ref={setRefs} className="relative z-20 mb-6" {...props}>
-      <motion.div style={{ opacity: brandOpacity, y: brandY }}>
+      <motion.div
+        style={{ opacity: brandOpacity, y: brandY }}
+        className="relative"
+      >
+        {/* Warstwa poświaty: STATYCZNY text-shadow (akcent), a migotanie robimy
+          tylko przez opacity — kompozyt na GPU zamiast repaintu blurowanego
+          cienia na dużym foncie co klatkę (kluczowe dla płynności na iOS). */}
         <motion.span
-          style={{ color: textColor, textShadow: brandTextShadow }}
-          className="text-neon-cyan text-center text-4xl font-bold md:text-7xl"
+          aria-hidden
+          style={{
+            opacity: glow,
+            textShadow:
+              '0 0 10px var(--hero-accent, #00ffff), 0 0 20px var(--hero-accent, #00ffff), 0 0 30px var(--hero-accent, #00ffff)',
+          }}
+          className="pointer-events-none absolute inset-0 text-center text-4xl font-bold text-transparent md:text-7xl"
+        >
+          Welcome in my world
+        </motion.span>
+        <motion.span
+          style={{ color: textColor }}
+          className="text-neon-cyan relative text-center text-4xl font-bold md:text-7xl"
         >
           Welcome in my world
         </motion.span>

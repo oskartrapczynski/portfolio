@@ -54,6 +54,7 @@ export const ScrollVideo = () => {
     let count = 0
     for (let i = 1; i <= FRAME_COUNT; i++) {
       const img = new Image()
+      img.decoding = 'async'
       img.src = framePath(i)
       img.onload = img.onerror = () => {
         if (cancelled) return
@@ -67,18 +68,19 @@ export const ScrollVideo = () => {
       cancelled = true
     }
   }, [])
+  const lastDrawnRef = useRef(-1)
 
-  const drawFrame = (index: number) => {
+  const drawFrame = (index: number, force = false) => {
     const canvas = canvasRef.current
-    const img =
-      imagesRef.current[
-        Math.min(FRAME_COUNT, Math.max(1, Math.round(index))) - 1
-      ]
+    const frame = Math.min(FRAME_COUNT, Math.max(1, Math.round(index)))
+    if (!force && frame === lastDrawnRef.current) return
+    const img = imagesRef.current[frame - 1]
     if (!canvas || !img || !img.complete || img.naturalWidth === 0) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const coarse = window.matchMedia('(pointer: coarse)').matches
+    const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2)
     const cw = canvas.clientWidth
     const ch = canvas.clientHeight
     if (canvas.width !== cw * dpr || canvas.height !== ch * dpr) {
@@ -101,15 +103,27 @@ export const ScrollVideo = () => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(img, dx, dy, dw, dh)
+    lastDrawnRef.current = frame
   }
 
-  useMotionValueEvent(frameIndex, 'change', (v) => drawFrame(v))
+  const drawRafRef = useRef(0)
+  const scheduleDraw = () => {
+    if (drawRafRef.current) return
+    drawRafRef.current = requestAnimationFrame(() => {
+      drawRafRef.current = 0
+      drawFrame(frameIndex.get())
+    })
+  }
+  useMotionValueEvent(frameIndex, 'change', scheduleDraw)
 
   useEffect(() => {
-    drawFrame(frameIndex.get())
-    const onResize = () => drawFrame(frameIndex.get())
+    drawFrame(frameIndex.get(), true)
+    const onResize = () => drawFrame(frameIndex.get(), true)
     window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      if (drawRafRef.current) cancelAnimationFrame(drawRafRef.current)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded])
 
