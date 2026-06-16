@@ -56,7 +56,7 @@ export const Navigation = () => {
             {/* Logo */}
             <motion.a
               href="#"
-              className="text-2xl font-bold font-mono neon-glow"
+              className="flex items-center"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={(e) => {
@@ -65,7 +65,11 @@ export const Navigation = () => {
                 scrollToTarget(0)
               }}
             >
-              {'<X/>'}
+              <img
+                src="/logo.svg"
+                alt="Oskar Logo"
+                className="h-12 w-auto -mt-4 filter invert"
+              />
             </motion.a>
 
             {/* Desktop Navigation */}
