@@ -46,7 +46,7 @@ export const Navigation = () => {
             {/* Logo */}
             <motion.a
               href="#"
-              className="text-2xl font-bold font-mono neon-text"
+              className="text-2xl font-bold font-mono neon-glow"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={(e) => {

@@ -42,7 +42,7 @@ export default {
         },
         neon: {
           cyan: '#00ffff',
-          blue: '#0ff',
+          blue: '#009696',
           purple: '#a78bfa',
         },
       },

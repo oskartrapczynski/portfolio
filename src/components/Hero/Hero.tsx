@@ -1,7 +1,11 @@
 import { useRef } from 'react'
-import { easeOut, motion, useScroll, useTransform } from 'framer-motion'
+import {
+  easeOut,
+  motion,
+} from 'framer-motion'
 import { Code2, Music, Film, Palette, Box, Disc3 } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
+import { WelcomeInMyWorld } from './WelcomeInMyWorld'
 
 const skills = [
   {
@@ -15,7 +19,7 @@ const skills = [
     category: 'Music Production',
     icon: Music,
     items: ['Ableton Live', 'FL Studio', 'Sound Design', 'Mixing', 'Mastering'],
-    color: 'text-neon-blue',
+    color: 'text-neon-cyan',
     borderColor: 'border-neon-blue',
   },
   {
@@ -40,7 +44,7 @@ const skills = [
       'DaVinci Resolve',
       'Motion Graphics',
     ],
-    color: 'text-neon-blue',
+    color: 'text-neon-cyan',
     borderColor: 'border-neon-blue',
   },
   {
@@ -54,7 +58,7 @@ const skills = [
     category: '3D Graphics',
     icon: Box,
     items: ['Blender', '3D Modeling', 'Rendering', 'Animation'],
-    color: 'text-neon-blue',
+    color: 'text-neon-cyan',
     borderColor: 'border-neon-blue',
   },
 ]
@@ -79,15 +83,13 @@ const itemVariants = {
 export const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null)
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'start start'],
-  })
 
-  const brandOpacity = useTransform(scrollYProgress, [0.15, 0.45], [0, 1])
-  const brandY = useTransform(scrollYProgress, [0.15, 0.6], [-450, 0], {
-    ease: easeOut,
-  })
+
+  // Neon scrubowany scrollem: w miarę pojawiania się napisu blask
+  // miga kilka razy (0/1), a potem zostaje "włączony" na stałe.
+  // Scroll w górę odtwarza migotanie wstecz — tak jak klatki filmu.
+
+
 
   return (
     <section
@@ -121,22 +123,15 @@ export const Hero = () => {
         }}
       />
       <div className="relative z-10 text-center max-w-7xl mx-auto py-32">
-        <motion.div
-          style={{ opacity: brandOpacity, y: brandY }}
-          className="relative z-20 mb-6"
-        >
-          <span className="neon-text text-center text-4xl font-bold md:text-7xl">
-            Welcome in my world
-          </span>
-        </motion.div>
+        <WelcomeInMyWorld ref={sectionRef} />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-8"
         >
-          <p className="text-2xl md:text-4xl text-neon-cyan font-mono mb-4">
-            {'<'} World of art and creativity {'>'}
+          <p className="text-2xl md:text-4xl text-neon-blue font-mono mb-4">
+            {'< World of art and creativity >'}
           </p>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
             Crafting digital experiences through code, sound, and visuals

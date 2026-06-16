@@ -15,14 +15,14 @@ const socialLinks = [
     icon: ICONS.linkedin,
     href: '#',
     label: 'LinkedIn',
-    color: 'hover:text-neon-blue',
+    color: 'hover:text-neon-cyan',
   },
   { icon: ICONS.x, href: '#', label: 'Twitter', color: 'hover:text-neon-cyan' },
   {
     icon: ICONS.instagram,
     href: '#',
     label: 'Instagram',
-    color: 'hover:text-neon-blue',
+    color: 'hover:text-neon-cyan',
   },
   {
     icon: ICONS.soundcloud,
@@ -34,7 +34,7 @@ const socialLinks = [
     icon: ICONS.gmail,
     href: '#',
     label: 'Email',
-    color: 'hover:text-neon-blue',
+    color: 'hover:text-neon-cyan',
   },
 ]
 
@@ -51,7 +51,7 @@ export const Contact = () => {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-5xl md:text-7xl font-bold mb-6 neon-text font-mono">
+          <h2 className="text-5xl md:text-7xl font-bold mb-6 neon-glow font-mono">
             {'<'} GET IN TOUCH {'>'}
           </h2>
           <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
