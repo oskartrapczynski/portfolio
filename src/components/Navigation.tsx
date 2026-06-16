@@ -1,7 +1,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type MouseEvent } from 'react'
 import { Menu, X } from 'lucide-react'
 import { scrollToTarget } from '../lib/scroll'
+import { NAV_ITEMS } from './Hero/skills'
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -21,16 +22,23 @@ export const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navItems = [
-    { label: 'Start', href: '#' },
-    { label: 'About', href: '#about' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Contact', href: '#contact' },
-  ]
-
   const scrollToSection = (href: string) => {
     setIsMobileMenuOpen(false)
     scrollToTarget(href)
+  }
+
+  const handleLinkOnClick = (
+    e:
+      | MouseEvent<HTMLAnchorElement, MouseEvent>
+      | MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
+    scrollLink: boolean,
+    href: string
+  ) => {
+    if (scrollLink) {
+      e.preventDefault()
+      e.stopPropagation()
+      scrollToSection(href)
+    }
   }
 
   return (
@@ -62,23 +70,19 @@ export const Navigation = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              {navItems.map((item, index) => (
+              {NAV_ITEMS.map(({ label, scrollLink, href }, index) => (
                 <motion.a
-                  key={item.label}
-                  href={item.href}
+                  key={label}
+                  href={href}
                   className="text-gray-300 hover:text-neon-cyan transition-colors duration-300 font-mono"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    scrollToSection(item.href)
-                  }}
+                  onClick={(e) => handleLinkOnClick(e, scrollLink, href)}
                 >
-                  {item.label}
+                  {label}
                 </motion.a>
               ))}
             </div>
@@ -106,24 +110,19 @@ export const Navigation = () => {
         className="fixed top-16 right-0 bottom-0 w-64 bg-black/95 backdrop-blur-md border-l border-neon-cyan/30 z-40 md:hidden"
       >
         <div className="flex flex-col p-6 space-y-4">
-          {navItems.map((item) => (
+          {NAV_ITEMS.map(({ label, href, scrollLink }) => (
             <a
-              key={item.label}
-              href={item.href}
+              key={label}
+              href={href}
               className="text-gray-300 hover:text-neon-cyan transition-colors duration-300 font-mono text-lg py-2"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                scrollToSection(item.href)
-              }}
+              onClick={(e) => handleLinkOnClick(e, scrollLink, href)}
             >
-              {item.label}
+              {label}
             </a>
           ))}
         </div>
       </motion.div>
 
-      {/* Mobile menu overlay */}
       {isMobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0 }}

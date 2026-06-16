@@ -7,61 +7,12 @@ import {
   useSpring,
   useTransform,
 } from 'framer-motion'
-import { Code2, Music, Film, Palette, Box, Disc3 } from 'lucide-react'
+
 import { WelcomeInMyWorld } from './WelcomeInMyWorld'
 import { SkillCard } from './SkillCard'
 import { useDeviceTilt } from '../../lib/useDeviceTilt'
 import { useTopCardIndex } from '../../lib/useTopCardIndex'
-
-const skills = [
-  {
-    category: 'Programming',
-    icon: Code2,
-    items: ['React', 'Node.js', 'TypeScript', 'Python', 'PostgreSQL', 'Docker'],
-    accent: '#00ffff',
-  },
-  {
-    category: 'DJing',
-    icon: Disc3,
-    items: [
-      'Traktor',
-      'Serato',
-      'Live Performance',
-      'Track Selection',
-      'Mixing',
-    ],
-    accent: '#ff2d95',
-  },
-  {
-    category: 'Music Production',
-    icon: Music,
-    items: ['Ableton Live', 'FL Studio', 'Sound Design', 'Mixing', 'Mastering'],
-    accent: '#a78bfa',
-  },
-  {
-    category: '2D Graphics',
-    icon: Palette,
-    items: ['Photoshop', 'Illustrator', 'Figma', 'UI/UX Design'],
-    accent: '#fbbf24',
-  },
-  {
-    category: '3D Graphics',
-    icon: Box,
-    items: ['Blender', '3D Modeling', 'Rendering', 'Animation'],
-    accent: '#ff8200',
-  },
-  {
-    category: 'Video Editing',
-    icon: Film,
-    items: [
-      'Premiere Pro',
-      'After Effects',
-      'DaVinci Resolve',
-      'Motion Graphics',
-    ],
-    accent: '#00ff41ff',
-  },
-]
+import { SKILLS } from './skills'
 
 const clamp = (v: number, min: number, max: number) =>
   Math.min(Math.max(v, min), max)
@@ -119,7 +70,7 @@ export const Hero = () => {
   useDeviceTilt({ tiltX, tiltY, engaged, mx, my })
 
   // Na telefonie karta na środku ekranu "udaje hover" (jedna naraz, po kolei).
-  const activeCard = useTopCardIndex(gridRef, skills.length)
+  const activeCard = useTopCardIndex(gridRef, SKILLS.length)
 
   // Indeks karty pod kursorem (desktop). Czyścimy tylko, gdy opuszczamy tę samą
   // kartę — przy przejściu między sąsiadami kolor nie miga do bazowego.
@@ -128,8 +79,8 @@ export const Hero = () => {
   // Aktywny akcent: hover myszką > karta na środku (mobile) > kolor bazowy.
   // Rozlewa się na napisy, siatkę, kształty i spotlight przez --hero-accent.
   const activeAccent =
-    (hoveredIndex != null && skills[hoveredIndex].accent) ||
-    (activeCard != null && skills[activeCard].accent) ||
+    (hoveredIndex != null && SKILLS[hoveredIndex].accent) ||
+    (activeCard != null && SKILLS[activeCard].accent) ||
     DEFAULT_ACCENT
 
   // Wystawiamy akcent globalnie (na :root), żeby elementy poza sekcją hero —
@@ -146,8 +97,12 @@ export const Hero = () => {
     const grid = gridRef.current
     if (grid) {
       const g = grid.getBoundingClientRect()
-      tiltX.set(clamp((e.clientX - (g.left + g.width / 2)) / (g.width / 2), -1, 1))
-      tiltY.set(clamp((e.clientY - (g.top + g.height / 2)) / (g.height / 2), -1, 1))
+      tiltX.set(
+        clamp((e.clientX - (g.left + g.width / 2)) / (g.width / 2), -1, 1)
+      )
+      tiltY.set(
+        clamp((e.clientY - (g.top + g.height / 2)) / (g.height / 2), -1, 1)
+      )
       engaged.set(1)
     }
   }
@@ -157,7 +112,7 @@ export const Hero = () => {
       ref={sectionRef}
       onPointerMove={handlePointerMove}
       style={{ ['--hero-accent' as string]: activeAccent }}
-      className="hero-accent relative min-h-screen flex items-center justify-center overflow-x-clip px-4"
+      className="hero-accent relative min-h-screen flex items-center justify-center overflow-x-clip px-4 cursor-pointer"
     >
       <motion.div
         className="absolute inset-0 grid-bg opacity-40"
@@ -171,7 +126,10 @@ export const Hero = () => {
       <div className="scanline absolute inset-0"></div>
       <motion.div
         className="absolute top-20 left-10 w-32 h-32 border-2 opacity-20"
-        style={{ borderColor: 'var(--hero-accent)', transition: 'border-color 0.4s ease' }}
+        style={{
+          borderColor: 'var(--hero-accent)',
+          transition: 'border-color 0.4s ease',
+        }}
         animate={{
           rotate: 360,
           scale: [1, 1.2, 1],
@@ -184,7 +142,10 @@ export const Hero = () => {
       />
       <motion.div
         className="absolute bottom-20 right-10 w-40 h-40 border-2 opacity-20 rounded-full"
-        style={{ borderColor: 'var(--hero-accent)', transition: 'border-color 0.4s ease' }}
+        style={{
+          borderColor: 'var(--hero-accent)',
+          transition: 'border-color 0.4s ease',
+        }}
         animate={{
           rotate: -360,
           scale: [1, 1.1, 1],
@@ -203,9 +164,7 @@ export const Hero = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-8"
         >
-          <p
-            className="text-2xl md:text-4xl font-mono mb-4 text-[var(--hero-accent)] duration-250 transition-colors opacity-50"
-          >
+          <p className="text-2xl md:text-4xl font-mono mb-4 text-[var(--hero-accent)] duration-250 transition-colors opacity-50">
             {'< World of art and creativity >'}
           </p>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
@@ -220,9 +179,9 @@ export const Hero = () => {
           viewport={{ once: true, margin: '-100px' }}
           className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left"
         >
-          {skills.map((skill, i) => (
+          {SKILLS.map((skill, i) => (
             <SkillCard
-              key={skill.category}
+              key={skill.label}
               skill={skill}
               variants={itemVariants}
               tiltX={tiltX}

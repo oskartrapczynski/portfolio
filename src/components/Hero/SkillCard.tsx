@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentType } from 'react'
+import { useState, useSyncExternalStore } from 'react'
 import {
   motion,
   useMotionTemplate,
@@ -11,13 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { ExternalLink } from 'lucide-react'
-
-type Skill = {
-  category: string
-  icon: ComponentType<{ className?: string }>
-  items: string[]
-  accent: string
-}
+import type { Skill } from './skills'
 
 type SkillCardProps = {
   skill: Skill
@@ -131,13 +125,17 @@ export const SkillCard = ({
             aria-hidden
             className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
             style={{ color: skill.accent, transformOrigin: 'center' }}
-            animate={isActive ? { scale: 1, opacity: 0.18 } : { scale: 10, opacity: 0.08 }}
+            animate={
+isActive
+? { scale: 1, opacity: 0.18 }
+: { scale: 10, opacity: 0.08 }
+}
             transition={{ duration: 0.15, ease: 'easeInOut' }}
           >
             <skill.icon className="h-24 w-24" />
           </motion.div>
-          <div className='absolute top-2 right-2'>
-            <ExternalLink className='size-6 text-[var(--accent)] opacity-40 transition-opacity group-hover:opacity-80 group-data-[active=true]:opacity-80' />
+          <div className="absolute top-2 right-2">
+            <ExternalLink className="size-6 text-[var(--accent)] opacity-40 transition-opacity group-hover:opacity-80 group-data-[active=true]:opacity-80" />
           </div>
           <CardHeader className="relative z-10 flex-row items-center gap-3 space-y-0 pb-4">
             <div className="skill-icon rounded-lg p-3 transition-transform duration-300 group-hover:scale-110 group-data-[active=true]:scale-110">
@@ -147,7 +145,7 @@ export const SkillCard = ({
               className="font-mono text-xl font-bold"
               style={{ color: skill.accent }}
             >
-              {skill.category}
+                {skill.label}
             </CardTitle>
           </CardHeader>
           <CardContent className="relative z-10">
