@@ -165,7 +165,7 @@ export const Hero = () => {
         }}
       />
       <div className="relative z-10 text-center max-w-7xl mx-auto py-32">
-        <WelcomeInMyWorld ref={sectionRef} />
+        <WelcomeInMyWorld />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
