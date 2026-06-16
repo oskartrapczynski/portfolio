@@ -1,14 +1,12 @@
 ---
-import Layout from '../components/Layout.astro'
-import SmoothScroll from '../components/SmoothScroll'
-import ScrollVideo from '../components/ScrollVideo'
-import Navigation from '../components/Navigation'
-import Hero from '../components/Hero'
-import About from '../components/About'
-import Projects from '../components/Projects'
-import Contact from '../components/Contact'
-import Footer from '../components/Footer'
-import Parallax from '../components/Parallax'
+import Layout from "../components/Layout.astro";
+import SmoothScroll from "../components/SmoothScroll";
+import ScrollVideo from "../components/ScrollVideo";
+import Navigation from "../components/Navigation";
+import Hero from "../components/Hero";
+import Contact from "../components/Contact";
+import Footer from "../components/Footer";
+import Parallax from "../components/Parallax";
 ---
 
 <Layout title="Oskar T.T - Fullstack Developer & Creative">
@@ -25,14 +23,6 @@ import Parallax from '../components/Parallax'
     <div class="relative z-10 -mt-[110vh] bg-background">
       <Hero client:load />
     </div>
-
-    <Parallax client:visible offset={50}>
-      <About client:visible />
-    </Parallax>
-
-    <Parallax client:visible offset={70}>
-      <Projects client:visible />
-    </Parallax>
 
     <Parallax client:visible offset={50}>
       <Contact client:visible />

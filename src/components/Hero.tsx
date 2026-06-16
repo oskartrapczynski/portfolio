@@ -1,6 +1,70 @@
 import { useRef } from 'react'
 import { easeOut, motion, useScroll, useTransform } from 'framer-motion'
+import { Code2, Music, Film, Palette, Box, Disc3 } from 'lucide-react'
 import { Button } from './ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+
+const skills = [
+  {
+    category: 'Development',
+    icon: Code2,
+    items: ['React', 'Node.js', 'TypeScript', 'Python', 'PostgreSQL', 'Docker'],
+    color: 'text-neon-cyan',
+    borderColor: 'border-neon-cyan',
+  },
+  {
+    category: 'Music Production',
+    icon: Music,
+    items: ['Ableton Live', 'FL Studio', 'Sound Design', 'Mixing', 'Mastering'],
+    color: 'text-neon-blue',
+    borderColor: 'border-neon-blue',
+  },
+  {
+    category: 'DJing',
+    icon: Disc3,
+    items: ['Traktor', 'Serato', 'Live Performance', 'Track Selection', 'Mixing'],
+    color: 'text-neon-cyan',
+    borderColor: 'border-neon-cyan',
+  },
+  {
+    category: 'Video Editing',
+    icon: Film,
+    items: ['Premiere Pro', 'After Effects', 'DaVinci Resolve', 'Motion Graphics'],
+    color: 'text-neon-blue',
+    borderColor: 'border-neon-blue',
+  },
+  {
+    category: '2D Graphics',
+    icon: Palette,
+    items: ['Photoshop', 'Illustrator', 'Figma', 'UI/UX Design'],
+    color: 'text-neon-cyan',
+    borderColor: 'border-neon-cyan',
+  },
+  {
+    category: '3D Graphics',
+    icon: Box,
+    items: ['Blender', '3D Modeling', 'Rendering', 'Animation'],
+    color: 'text-neon-blue',
+    borderColor: 'border-neon-blue',
+  },
+]
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+}
+
+const itemVariants = {
+  hidden: { y: 30, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.5, ease: easeOut },
+  },
+}
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -46,7 +110,7 @@ export default function Hero() {
           ease: 'linear',
         }}
       />
-      <div className="relative z-10 text-center max-w-5xl mx-auto">
+      <div className="relative z-10 text-center max-w-7xl mx-auto py-32">
         <motion.div
           style={{ opacity: brandOpacity, y: brandY }}
           className="relative z-20 mb-6"
@@ -69,60 +133,46 @@ export default function Hero() {
           </p>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-wrap justify-center gap-4"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left"
         >
-          <Button
-            // variant="neon"
-            size="lg"
-            className="text-lg font-mono"
-            onClick={() =>
-              document
-                .getElementById('projects')
-                ?.scrollIntoView({ behavior: 'smooth' })
-            }
-          >
-            View Projects
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="text-lg font-mono border-gray-700 hover:border-neon-cyan"
-            onClick={() =>
-              document
-                .getElementById('about')
-                ?.scrollIntoView({ behavior: 'smooth' })
-            }
-          >
-            About Me
-          </Button>
-        </motion.div>
-        <motion.div
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        >
-          <div className="w-6 h-10 border-2 border-neon-cyan rounded-full flex items-start justify-center p-2">
+          {skills.map((skill) => (
             <motion.div
-              className="w-1.5 h-1.5 bg-neon-cyan rounded-full"
-              animate={{
-                y: [0, 20, 0],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-          </div>
+              key={skill.category}
+              variants={itemVariants}
+              whileHover={{ scale: 1.05, y: -10 }}
+            >
+              <Card
+                className={`group h-full bg-black/70 backdrop-blur-sm border ${skill.borderColor} transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,255,255,0.3)]`}
+              >
+                <CardHeader className="flex-row items-center gap-3 space-y-0 pb-4">
+                  <div
+                    className={`p-3 bg-gray-900 rounded-lg ${skill.color} transition-transform duration-300 group-hover:scale-110`}
+                  >
+                    <skill.icon className="w-6 h-6" />
+                  </div>
+                  <CardTitle className={`text-xl font-bold font-mono ${skill.color}`}>
+                    {skill.category}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {skill.items.map((item) => (
+                      <span
+                        key={item}
+                        className="px-3 py-1 text-sm bg-gray-900 text-gray-300 rounded-full border border-gray-700 hover:border-neon-cyan transition-colors duration-300"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
