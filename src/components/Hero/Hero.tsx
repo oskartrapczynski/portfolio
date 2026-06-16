@@ -2,10 +2,14 @@ import { useRef } from 'react'
 import {
   easeOut,
   motion,
+  useMotionTemplate,
+  useMotionValue,
+  useSpring,
+  useTransform,
 } from 'framer-motion'
 import { Code2, Music, Film, Palette, Box, Disc3 } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { WelcomeInMyWorld } from './WelcomeInMyWorld'
+import { SkillCard } from './SkillCard'
 
 const skills = [
   {
@@ -57,6 +61,9 @@ const skills = [
   },
 ]
 
+const clamp = (v: number, min: number, max: number) =>
+  Math.min(Math.max(v, min), max)
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -77,20 +84,61 @@ const itemVariants = {
 export const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null)
 
+  // Pozycja kursora względem sekcji (0..1) — steruje tłem.
+  const mx = useMotionValue(0.5)
+  const my = useMotionValue(0.5)
 
+  // Sprężynujemy, żeby blask podążał za kursorem płynnie, z lekkim opóźnieniem.
+  const sx = useSpring(mx, { stiffness: 120, damping: 25 })
+  const sy = useSpring(my, { stiffness: 120, damping: 25 })
 
-  // Neon scrubowany scrollem: w miarę pojawiania się napisu blask
-  // miga kilka razy (0/1), a potem zostaje "włączony" na stałe.
-  // Scroll w górę odtwarza migotanie wstecz — tak jak klatki filmu.
+  // Spotlight podążający za kursorem.
+  const spotX = useTransform(sx, [0, 1], ['0%', '100%'])
+  const spotY = useTransform(sy, [0, 1], ['0%', '100%'])
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${spotX} ${spotY}, rgba(0, 255, 255, 0.12), transparent 70%)`
 
+  // Lekki parallax siatki w przeciwną stronę niż ruch kursora.
+  const gridX = useTransform(sx, [0, 1], [20, -20])
+  const gridY = useTransform(sy, [0, 1], [20, -20])
+  const gridPos = useMotionTemplate`calc(50% + ${gridX}px) calc(50% + ${gridY}px)`
 
+  // Pozycja kursora znormalizowana względem ŚRODKA siatki kart (-1..1).
+  // Wspólna dla wszystkich kart — cała siatka przechyla się jak jedna płaszczyzna.
+  const gridRef = useRef<HTMLDivElement>(null)
+  const tiltX = useSpring(useMotionValue(0), { stiffness: 200, damping: 30 })
+  const tiltY = useSpring(useMotionValue(0), { stiffness: 200, damping: 30 })
+  // 0 zanim kursor wejdzie w sekcję — karty startują płasko.
+  const engaged = useMotionValue(0)
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    mx.set((e.clientX - rect.left) / rect.width)
+    my.set((e.clientY - rect.top) / rect.height)
+
+    const grid = gridRef.current
+    if (grid) {
+      const g = grid.getBoundingClientRect()
+      tiltX.set(clamp((e.clientX - (g.left + g.width / 2)) / (g.width / 2), -1, 1))
+      tiltY.set(clamp((e.clientY - (g.top + g.height / 2)) / (g.height / 2), -1, 1))
+      engaged.set(1)
+    }
+  }
 
   return (
     <section
       ref={sectionRef}
+      onPointerMove={handlePointerMove}
       className="relative min-h-screen flex items-center justify-center overflow-x-clip px-4"
     >
-      <div className="absolute inset-0 grid-bg opacity-20"></div>
+      <motion.div
+        className="absolute inset-0 grid-bg opacity-20"
+        style={{ backgroundPosition: gridPos }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{ background: spotlight }}
+      />
       <div className="scanline absolute inset-0"></div>
       <motion.div
         className="absolute top-20 left-10 w-32 h-32 border-2 border-neon-cyan opacity-20"
@@ -132,6 +180,7 @@ export const Hero = () => {
           </p>
         </motion.div>
         <motion.div
+          ref={gridRef}
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -139,38 +188,14 @@ export const Hero = () => {
           className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left"
         >
           {skills.map((skill) => (
-            <motion.div
+            <SkillCard
               key={skill.category}
+              skill={skill}
               variants={itemVariants}
-              whileHover={{ scale: 1.04, y: -8 }}
-              style={{ ['--accent' as string]: skill.accent }}
-            >
-              <Card className="skill-card group h-full rounded-xl backdrop-blur-sm">
-                <CardHeader className="flex-row items-center gap-3 space-y-0 pb-4">
-                  <div className="skill-icon rounded-lg p-3 transition-transform duration-300 group-hover:scale-110">
-                    <skill.icon className="h-6 w-6" />
-                  </div>
-                  <CardTitle
-                    className="font-mono text-xl font-bold"
-                    style={{ color: skill.accent }}
-                  >
-                    {skill.category}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {skill.items.map((item) => (
-                      <span
-                        key={item}
-                        className="skill-tag rounded-full px-3 py-1 text-sm"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+              tiltX={tiltX}
+              tiltY={tiltY}
+              engaged={engaged}
+            />
           ))}
         </motion.div>
       </div>
