@@ -135,10 +135,7 @@ export const Hero = () => {
           className="mb-8"
         >
           <p className="text-2xl md:text-4xl font-mono mb-4 text-[var(--hero-accent)] duration-250 transition-colors opacity-50">
-            {'< World of art and creativity >'}
-          </p>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-            Crafting digital experiences through code, sound, and visuals
+            WORLD of ART and CREATIVITY
           </p>
         </motion.div>
         <motion.div
