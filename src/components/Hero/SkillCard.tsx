@@ -32,6 +32,21 @@ const MAX_TILT = 10
 
 const spring = { stiffness: 150, damping: 18, mass: 0.6 }
 
+// Odczyt „czy urządzenie dotykowe" jako subskrypcja systemu zewnętrznego —
+// bez kaskadowego setState w effekcie. Współdzielone między kartami.
+const coarseQuery = '(pointer: coarse)'
+
+const subscribeCoarse = (onChange: () => void) => {
+  const mql = window.matchMedia(coarseQuery)
+  mql.addEventListener('change', onChange)
+  return () => mql.removeEventListener('change', onChange)
+}
+
+const getCoarseSnapshot = () => window.matchMedia(coarseQuery).matches
+
+// SSR (Astro renderuje wyspę na serwerze): domyślnie traktujemy jak desktop.
+const getCoarseServerSnapshot = () => false
+
 export const SkillCard = ({
   skill,
   variants,
@@ -65,10 +80,11 @@ export const SkillCard = ({
 
   // Czy urządzenie jest dotykowe — wtedy hover myszką jest wyłączony,
   // a podświetlenie steruje scroll (prop `active`). Desktop: odwrotnie.
-  const [isCoarse, setIsCoarse] = useState(false)
-  useEffect(() => {
-    setIsCoarse(window.matchMedia('(pointer: coarse)').matches)
-  }, [])
+  const isCoarse = useSyncExternalStore(
+    subscribeCoarse,
+    getCoarseSnapshot,
+    getCoarseServerSnapshot
+  )
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (isCoarse) return
@@ -111,58 +127,58 @@ export const SkillCard = ({
           animate={isActive ? { scale: 1.04, y: -8 } : { scale: 1, y: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
         >
-        <Card
-          data-active={isActive}
-          onPointerMove={handlePointerMove}
-          className="skill-card group relative h-full select-none overflow-hidden rounded-xl backdrop-blur-sm"
-        >
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-data-[active=true]:opacity-100"
-            style={{ background: glare }}
-          />
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
-            style={{ color: skill.accent, transformOrigin: 'center' }}
-            animate={
-isActive
-? { scale: 1, opacity: 0.18 }
-: { scale: 10, opacity: 0.08 }
-}
-            transition={{ duration: 0.15, ease: 'easeInOut' }}
+          <Card
+            data-active={isActive}
+            onPointerMove={handlePointerMove}
+            className="skill-card group relative h-full select-none overflow-hidden rounded-xl backdrop-blur-sm"
           >
-            <skill.icon className="h-24 w-24" />
-          </motion.div>
-          <div className="absolute top-2 right-2">
-            <ExternalLink className="size-6 text-[var(--accent)] opacity-40 transition-opacity group-hover:opacity-80 group-data-[active=true]:opacity-80" />
-          </div>
-          <CardHeader className="relative z-10 flex-row items-center gap-3 space-y-0 pb-4">
-            <div className="skill-icon rounded-lg p-3 transition-transform duration-300 group-hover:scale-110 group-data-[active=true]:scale-110">
-              <skill.icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-150 group-data-[active=true]:scale-150" />
-            </div>
-            <CardTitle
-              className="font-mono text-xl font-bold"
-              style={{ color: skill.accent }}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-data-[active=true]:opacity-100"
+              style={{ background: glare }}
+            />
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
+              style={{ color: skill.accent, transformOrigin: 'center' }}
+              animate={
+                isActive
+                  ? { scale: 1, opacity: 0.18 }
+                  : { scale: 10, opacity: 0.08 }
+              }
+              transition={{ duration: 0.15, ease: 'easeInOut' }}
             >
-                {skill.label}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="relative z-10">
-            <div className="-m-1 flex flex-wrap">
-              {skill.items.map((item) => (
-                <div key={item} className="skill-tag-wrap p-1">
-                  <Badge
-                    variant="outline"
-                    className="skill-tag px-3 py-1 text-sm font-normal"
-                  >
-                    {item}
-                  </Badge>
-                </div>
-              ))}
+              <skill.icon className="h-24 w-24" />
+            </motion.div>
+            <div className="absolute top-2 right-2">
+              <ExternalLink className="size-6 text-[var(--accent)] opacity-40 transition-opacity group-hover:opacity-80 group-data-[active=true]:opacity-80" />
             </div>
-          </CardContent>
-        </Card>
+            <CardHeader className="relative z-10 flex-row items-center gap-3 space-y-0 pb-4">
+              <div className="skill-icon rounded-lg p-3 transition-transform duration-300 group-hover:scale-110 group-data-[active=true]:scale-110">
+                <skill.icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-150 group-data-[active=true]:scale-150" />
+              </div>
+              <CardTitle
+                className="font-mono text-xl font-bold"
+                style={{ color: skill.accent }}
+              >
+                {skill.label}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="relative z-10">
+              <div className="-m-1 flex flex-wrap">
+                {skill.items.map((item) => (
+                  <div key={item} className="skill-tag-wrap p-1">
+                    <Badge
+                      variant="outline"
+                      className="skill-tag px-3 py-1 text-sm font-normal"
+                    >
+                      {item}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
       </motion.div>
     </motion.div>
