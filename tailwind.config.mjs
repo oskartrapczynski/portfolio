@@ -2,6 +2,8 @@ import tailwindcssAnimate from 'tailwindcss-animate'
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  // hover:/group-hover: tylko gdy jest prawdziwy kursor — na dotyku nie "przykleja się" po tapnięciu.
+  future: { hoverOnlyWhenSupported: true },
   darkMode: ['class'],
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {

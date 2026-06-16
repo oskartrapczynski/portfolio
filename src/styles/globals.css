@@ -142,11 +142,20 @@
     background 0.35s ease;
 }
 
-.skill-card:hover {
+.skill-card[data-active='true'] {
   border-color: color-mix(in srgb, var(--accent) 70%, transparent);
   box-shadow:
     0 0 32px color-mix(in srgb, var(--accent) 28%, transparent),
     inset 0 0 22px color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+@media (hover: hover) {
+  .skill-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+    box-shadow:
+      0 0 32px color-mix(in srgb, var(--accent) 28%, transparent),
+      inset 0 0 22px color-mix(in srgb, var(--accent) 7%, transparent);
+  }
 }
 
 .skill-icon {
@@ -158,8 +167,14 @@
     box-shadow 0.3s ease;
 }
 
-.skill-card:hover .skill-icon {
+.skill-card[data-active='true'] .skill-icon {
   box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+@media (hover: hover) {
+  .skill-card:hover .skill-icon {
+    box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
 }
 
 .skill-tag {
@@ -172,14 +187,20 @@
     background 0.25s ease;
 }
 
-.skill-card:hover .skill-tag {
+.skill-card[data-active='true'] .skill-tag {
   border-color: color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
-.skill-tag:hover {
-  color: color-mix(in srgb, var(--accent) 85%, white);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border-color: var(--accent);
+@media (hover: hover) {
+  .skill-card:hover .skill-tag {
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+
+  .skill-tag:hover {
+    color: color-mix(in srgb, var(--accent) 85%, white);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border-color: var(--accent);
+  }
 }
 
 /* Social links — brandowy accent per platforma (zmienna --accent) */
@@ -203,9 +224,10 @@
 
 /* Grid background */
 .grid-bg {
+  --grid-line: color-mix(in srgb, var(--hero-accent, #00ffff) 10%, transparent);
   background-image:
-    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 50px 50px;
   background-position: center center;
 }

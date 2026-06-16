@@ -33,13 +33,19 @@ export const WelcomeInMyWorld = forwardRef<
     [0, 1, 0, 1, 0, 1, 0, 1, 0]
   )
 
-  const textColor = useTransform(
+  // Stopień "zapalenia" napisu (0 = czarny, 1 = akcent) z tym samym migotaniem.
+  const reveal = useTransform(
     scrollYProgress,
     glowFrames,
-    ['#000', '#000', '#000', '#000', '#000', '#000', '#000', '#00ffff', '#00ffff']
+    [0, 1, 0, 1, 0, 1, 0, 1, 1]
   )
+  const revealPct = useTransform(reveal, (v) => `${v * 100}%`)
+  const glowPct = useTransform(glow, (v) => `${v * 100}%`)
 
-  const brandTextShadow = useMotionTemplate`0 0 10px rgba(0, 255, 255, ${glow}), 0 0 20px rgba(0, 255, 255, ${glow}), 0 0 30px rgba(0, 255, 255, ${glow})`
+  // Kolor i poświata z --hero-accent (dziedziczone z sekcji) — podążają za kartą.
+  const textColor = useMotionTemplate`color-mix(in srgb, var(--hero-accent, #00ffff) ${revealPct}, #000000)`
+
+  const brandTextShadow = useMotionTemplate`0 0 10px color-mix(in srgb, var(--hero-accent, #00ffff) ${glowPct}, transparent), 0 0 20px color-mix(in srgb, var(--hero-accent, #00ffff) ${glowPct}, transparent), 0 0 30px color-mix(in srgb, var(--hero-accent, #00ffff) ${glowPct}, transparent)`
 
   const brandOpacity = useTransform(scrollYProgress, [0.15, 0.45], [0, 1])
 
@@ -51,13 +57,11 @@ export const WelcomeInMyWorld = forwardRef<
   }
 
   return (
-    // Wrapper bez transformu = stabilny target pomiaru scrolla (brak sprzężenia
-    // z animowanym y poniżej).
     <motion.div ref={setRefs} className="relative z-20 mb-6" {...props}>
       <motion.div style={{ opacity: brandOpacity, y: brandY }}>
         <motion.span
           style={{ color: textColor, textShadow: brandTextShadow }}
-          className="text-neon-cyan text-center text-4xl font-bold md:text-7xl"
+          className="text-neon-cyan text-center text-4xl font-bold duration-250 transition-colors md:text-7xl"
         >
           Welcome in my world
         </motion.span>
