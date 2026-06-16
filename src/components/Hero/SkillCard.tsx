@@ -1,6 +1,8 @@
 import type { ComponentType } from 'react'
 import {
   motion,
+  useMotionTemplate,
+  useMotionValue,
   useSpring,
   useTransform,
   type MotionValue,
@@ -54,9 +56,21 @@ export const SkillCard = ({
     spring
   )
 
+  // Lokalny blask podążający za kursorem w środku najechanej karty.
+  const glareX = useMotionValue(50)
+  const glareY = useMotionValue(50)
+  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, color-mix(in srgb, ${skill.accent} 22%, transparent), transparent 55%)`
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    glareX.set(((e.clientX - r.left) / r.width) * 100)
+    glareY.set(((e.clientY - r.top) / r.height) * 100)
+  }
+
   return (
     <motion.div
       variants={variants}
+      onPointerMove={handlePointerMove}
       whileHover={{ scale: 1.04, y: -8 }}
       style={{
         ['--accent' as string]: skill.accent,
@@ -66,10 +80,15 @@ export const SkillCard = ({
         transformStyle: 'preserve-3d',
       }}
     >
-      <Card className="skill-card group h-full rounded-xl backdrop-blur-sm">
+      <Card className="skill-card group relative h-full overflow-hidden rounded-xl backdrop-blur-sm">
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{ background: glare }}
+        />
         <CardHeader className="flex-row items-center gap-3 space-y-0 pb-4">
           <div className="skill-icon rounded-lg p-3 transition-transform duration-300 group-hover:scale-110">
-            <skill.icon className="h-6 w-6" />
+            <skill.icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-150" />
           </div>
           <CardTitle
             className="font-mono text-xl font-bold"
