@@ -125,38 +125,7 @@ export const Hero = () => {
         style={{ background: spotlight }}
       />
       <div className="scanline absolute inset-0"></div>
-      <motion.div
-        className="absolute top-20 left-10 w-32 h-32 border-2 opacity-20"
-        style={{
-          borderColor: 'var(--hero-accent)',
-          transition: 'border-color 0.4s ease',
-        }}
-        animate={{
-          rotate: 360,
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-40 h-40 border-2 opacity-20 rounded-full"
-        style={{
-          borderColor: 'var(--hero-accent)',
-          transition: 'border-color 0.4s ease',
-        }}
-        animate={{
-          rotate: -360,
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-      />
+
       <div className="relative z-10 text-center max-w-7xl mx-auto py-32">
         <WelcomeInMyWorld />
         <motion.div
