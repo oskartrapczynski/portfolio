@@ -9,32 +9,32 @@ const socialLinks = [
     icon: ICONS.github,
     href: '#',
     label: 'GitHub',
-    color: 'hover:text-neon-cyan',
+    accent: '#f5f5f5',
   },
   {
     icon: ICONS.linkedin,
     href: '#',
     label: 'LinkedIn',
-    color: 'hover:text-neon-cyan',
+    accent: '#0a66c2',
   },
-  { icon: ICONS.x, href: '#', label: 'Twitter', color: 'hover:text-neon-cyan' },
+  { icon: ICONS.x, href: '#', label: 'Twitter', accent: '#ffffff' },
   {
     icon: ICONS.instagram,
     href: '#',
     label: 'Instagram',
-    color: 'hover:text-neon-cyan',
+    accent: '#e4405f',
   },
   {
     icon: ICONS.soundcloud,
     href: '#',
     label: 'SoundCloud',
-    color: 'hover:text-neon-cyan',
+    accent: '#ff5500',
   },
   {
     icon: ICONS.gmail,
     href: '#',
     label: 'Email',
-    color: 'hover:text-neon-cyan',
+    accent: '#ea4335',
   },
 ]
 
@@ -71,7 +71,8 @@ export const Contact = () => {
                 aria-label={link.label}
                 whileHover={{ scale: 1.1, y: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className={`p-3 border border-gray-700 rounded-lg bg-black/50 backdrop-blur-sm transition-all duration-300 ${link.color}`}
+                style={{ ['--accent' as string]: link.accent }}
+                className="social-link rounded-lg p-3 backdrop-blur-sm"
               >
                 <SocialIcon icon={link.icon} className="w-6 h-6" />
               </motion.a>
