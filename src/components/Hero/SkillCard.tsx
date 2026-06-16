@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import { useState, type ComponentType } from 'react'
 import {
   motion,
   useMotionTemplate,
@@ -67,10 +67,15 @@ export const SkillCard = ({
     glareY.set(((e.clientY - r.top) / r.height) * 100)
   }
 
+  // Jednorazowy "pop" ikony po najechaniu na kartę.
+  const [hovered, setHovered] = useState(false)
+
   return (
     <motion.div
       variants={variants}
       onPointerMove={handlePointerMove}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
       whileHover={{ scale: 1.04, y: -8 }}
       style={{
         ['--accent' as string]: skill.accent,
@@ -86,7 +91,16 @@ export const SkillCard = ({
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           style={{ background: glare }}
         />
-        <CardHeader className="flex-row items-center gap-3 space-y-0 pb-4">
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
+          style={{ color: skill.accent, transformOrigin: 'center' }}
+          animate={hovered ? { scale: 1, opacity: 0.18 } : { scale: 10, opacity: 0.08 }}
+          transition={{ duration: 0.2, ease: 'easeInOut' }}
+        >
+          <skill.icon className="h-24 w-24" />
+        </motion.div>
+        <CardHeader className="relative z-10 flex-row items-center gap-3 space-y-0 pb-4">
           <div className="skill-icon rounded-lg p-3 transition-transform duration-300 group-hover:scale-110">
             <skill.icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-150" />
           </div>
@@ -97,7 +111,7 @@ export const SkillCard = ({
             {skill.category}
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="relative z-10">
           <div className="flex flex-wrap gap-2">
             {skill.items.map((item) => (
               <span
