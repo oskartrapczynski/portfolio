@@ -1,19 +1,44 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Button } from './ui/button'
-import { Mail, MapPin, Send } from 'lucide-react'
 import { ICONS, SocialIcon } from './SocialIcon'
+import { scrollToTarget } from '../lib/scroll'
 
 const socialLinks = [
-  { icon: ICONS.github, href: '#', label: 'GitHub', color: 'hover:text-neon-cyan' },
-  { icon: ICONS.linkedin, href: '#', label: 'LinkedIn', color: 'hover:text-neon-blue' },
+  {
+    icon: ICONS.github,
+    href: '#',
+    label: 'GitHub',
+    color: 'hover:text-neon-cyan',
+  },
+  {
+    icon: ICONS.linkedin,
+    href: '#',
+    label: 'LinkedIn',
+    color: 'hover:text-neon-blue',
+  },
   { icon: ICONS.x, href: '#', label: 'Twitter', color: 'hover:text-neon-cyan' },
-  { icon: ICONS.instagram, href: '#', label: 'Instagram', color: 'hover:text-neon-blue' },
-  { icon: ICONS.soundcloud, href: '#', label: 'SoundCloud', color: 'hover:text-neon-cyan' },
-  { icon: ICONS.gmail, href: '#', label: 'Email', color: 'hover:text-neon-blue' },
+  {
+    icon: ICONS.instagram,
+    href: '#',
+    label: 'Instagram',
+    color: 'hover:text-neon-blue',
+  },
+  {
+    icon: ICONS.soundcloud,
+    href: '#',
+    label: 'SoundCloud',
+    color: 'hover:text-neon-cyan',
+  },
+  {
+    icon: ICONS.gmail,
+    href: '#',
+    label: 'Email',
+    color: 'hover:text-neon-blue',
+  },
 ]
 
-export default function Contact() {
+export const Contact = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
@@ -60,22 +85,10 @@ export default function Contact() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button
-              // variant="neon"
-              size="lg"
-              className="text-lg font-mono"
-              asChild
-            >
-              <a href="mailto:your.email@example.com">
-                <Send className="w-5 h-5 mr-2" />
-                Send Email
-              </a>
-            </Button>
-
-            <Button
               variant="outline"
               size="lg"
               className="text-lg font-mono border-gray-700 hover:border-neon-cyan"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => scrollToTarget(0)}
             >
               Back to Top
             </Button>

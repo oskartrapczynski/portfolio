@@ -1,42 +1,37 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Button } from './ui/button';
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { Menu, X } from 'lucide-react'
+import { scrollToTarget } from '../lib/scroll'
 
-export default function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { scrollY } = useScroll();
+export const Navigation = () => {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { scrollY } = useScroll()
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
     ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.9)']
-  );
+  )
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const navItems = [
     { label: 'Home', href: '#' },
     { label: 'About', href: '#about' },
     { label: 'Projects', href: '#projects' },
     { label: 'Contact', href: '#contact' },
-  ];
+  ]
 
   const scrollToSection = (href: string) => {
-    setIsMobileMenuOpen(false);
-    if (href === '#') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      const element = document.querySelector(href);
-      element?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+    setIsMobileMenuOpen(false)
+    scrollToTarget(href)
+  }
 
   return (
     <>
@@ -55,8 +50,9 @@ export default function Navigation() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                e.preventDefault()
+                e.stopPropagation()
+                scrollToTarget(0)
               }}
             >
               {'<X/>'}
@@ -75,8 +71,9 @@ export default function Navigation() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(item.href);
+                    e.preventDefault()
+                    e.stopPropagation()
+                    scrollToSection(item.href)
                   }}
                 >
                   {item.label}
@@ -89,7 +86,11 @@ export default function Navigation() {
               className="md:hidden text-neon-cyan"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -109,8 +110,9 @@ export default function Navigation() {
               href={item.href}
               className="text-gray-300 hover:text-neon-cyan transition-colors duration-300 font-mono text-lg py-2"
               onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(item.href);
+                e.preventDefault()
+                e.stopPropagation()
+                scrollToSection(item.href)
               }}
             >
               {item.label}
@@ -130,5 +132,5 @@ export default function Navigation() {
         />
       )}
     </>
-  );
+  )
 }

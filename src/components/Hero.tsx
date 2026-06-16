@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { easeOut, motion, useScroll, useTransform } from 'framer-motion'
 import { Code2, Music, Film, Palette, Box, Disc3 } from 'lucide-react'
-import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 
 const skills = [
@@ -22,14 +21,25 @@ const skills = [
   {
     category: 'DJing',
     icon: Disc3,
-    items: ['Traktor', 'Serato', 'Live Performance', 'Track Selection', 'Mixing'],
+    items: [
+      'Traktor',
+      'Serato',
+      'Live Performance',
+      'Track Selection',
+      'Mixing',
+    ],
     color: 'text-neon-cyan',
     borderColor: 'border-neon-cyan',
   },
   {
     category: 'Video Editing',
     icon: Film,
-    items: ['Premiere Pro', 'After Effects', 'DaVinci Resolve', 'Motion Graphics'],
+    items: [
+      'Premiere Pro',
+      'After Effects',
+      'DaVinci Resolve',
+      'Motion Graphics',
+    ],
     color: 'text-neon-blue',
     borderColor: 'border-neon-blue',
   },
@@ -66,7 +76,7 @@ const itemVariants = {
   },
 }
 
-export default function Hero() {
+export const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -75,8 +85,8 @@ export default function Hero() {
   })
 
   const brandOpacity = useTransform(scrollYProgress, [0.15, 0.45], [0, 1])
-   const brandY = useTransform(scrollYProgress, [0.15, 0.6], [-450, 0], {
-    ease: easeOut
+  const brandY = useTransform(scrollYProgress, [0.15, 0.6], [-450, 0], {
+    ease: easeOut,
   })
 
   return (
@@ -154,7 +164,9 @@ export default function Hero() {
                   >
                     <skill.icon className="w-6 h-6" />
                   </div>
-                  <CardTitle className={`text-xl font-bold font-mono ${skill.color}`}>
+                  <CardTitle
+                    className={`text-xl font-bold font-mono ${skill.color}`}
+                  >
                     {skill.category}
                   </CardTitle>
                 </CardHeader>

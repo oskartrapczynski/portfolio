@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+} from 'framer-motion'
 
 const FRAME_COUNT = 168
 const SCROLL_HEIGHT = '300vh'
@@ -8,7 +13,7 @@ const SCRUB_END = 0.58
 const framePath = (i: number) =>
   `/frames/promo/frame_${String(i).padStart(4, '0')}.webp`
 
-export default function ScrollVideo() {
+export const ScrollVideo = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imagesRef = useRef<HTMLImageElement[]>([])
@@ -20,7 +25,11 @@ export default function ScrollVideo() {
     offset: ['start start', 'end end'],
   })
 
-  const frameIndex = useTransform(scrollYProgress, [0, SCRUB_END], [1, FRAME_COUNT])
+  const frameIndex = useTransform(
+    scrollYProgress,
+    [0, SCRUB_END],
+    [1, FRAME_COUNT]
+  )
   const hintOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0])
 
   const fadeRef = useRef({ start: Infinity, span: 1 })
@@ -61,7 +70,10 @@ export default function ScrollVideo() {
 
   const drawFrame = (index: number) => {
     const canvas = canvasRef.current
-    const img = imagesRef.current[Math.min(FRAME_COUNT, Math.max(1, Math.round(index))) - 1]
+    const img =
+      imagesRef.current[
+        Math.min(FRAME_COUNT, Math.max(1, Math.round(index))) - 1
+      ]
     if (!canvas || !img || !img.complete || img.naturalWidth === 0) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
@@ -102,11 +114,11 @@ export default function ScrollVideo() {
   }, [loaded])
 
   return (
-      <section
-        ref={sectionRef}
-        className="relative z-0"
-        style={{ height: SCROLL_HEIGHT }}
-      >
+    <section
+      ref={sectionRef}
+      className="relative z-0"
+      style={{ height: SCROLL_HEIGHT }}
+    >
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
         <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
@@ -130,6 +142,6 @@ export default function ScrollVideo() {
           SCROLL ↓
         </motion.div>
       </div>
-      </section>
+    </section>
   )
 }

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
+import { HEADER_OFFSET, setLenis } from '../lib/scroll'
 
 /**
  * Globalny płynny scroll (Lenis). Steruje natywną pozycją scrolla,
@@ -8,7 +9,7 @@ import Lenis from 'lenis'
  *
  * Aby wyłączyć płynny scroll: usuń <SmoothScroll /> z index.astro.
  */
-export default function SmoothScroll() {
+export const SmoothScroll = () => {
   useEffect(() => {
     // Szanuj ustawienie "ogranicz ruch" w systemie
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -19,6 +20,8 @@ export default function SmoothScroll() {
       easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic
       smoothWheel: true,
     })
+
+    setLenis(lenis)
 
     let raf = 0
     const loop = (time: number) => {
@@ -36,7 +39,7 @@ export default function SmoothScroll() {
       const id = target.getAttribute('href')!
       if (id.length > 1) {
         e.preventDefault()
-        lenis.scrollTo(id, { offset: 0 })
+        lenis.scrollTo(id, { offset: HEADER_OFFSET })
       }
     }
     document.addEventListener('click', onClick)
@@ -45,6 +48,7 @@ export default function SmoothScroll() {
       cancelAnimationFrame(raf)
       document.removeEventListener('click', onClick)
       lenis.destroy()
+      setLenis(null)
     }
   }, [])
 

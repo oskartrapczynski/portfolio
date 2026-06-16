@@ -12,7 +12,7 @@ interface Props {
  * Subtelny parallax oparty wyłącznie o framer-motion.
  * Element przesuwa się wolniej/szybciej niż scroll, dając głębię.
  */
-export default function Parallax({ children, offset = 60, className }: Props) {
+export const Parallax = ({ children, offset = 60, className }: Props) => {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,

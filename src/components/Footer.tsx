@@ -1,52 +1,20 @@
 import { motion } from 'framer-motion'
-import { Heart } from 'lucide-react'
 
-export default function Footer() {
-  const currentYear = new Date().getFullYear()
+const currentYear = new Date().getFullYear()
 
+export const Footer = () => {
   return (
     <footer className="relative border-t border-gray-800 py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4">
           <motion.p
-            className="text-gray-400 font-mono text-sm flex items-center gap-2"
+            className="font-mono text-sm text-neon-cyan"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            © {currentYear} Oskar T.T. Made with
-            <Heart
-              className="w-4 h-4 text-neon-cyan inline"
-              fill="currentColor"
-            />
-            and caffeine
+            © {currentYear} Oskar T.T
           </motion.p>
-
-          <motion.div
-            className="flex gap-6 text-gray-400 text-sm font-mono"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <a
-              href="#"
-              className="hover:text-neon-cyan transition-colors duration-300"
-            >
-              Privacy
-            </a>
-            <a
-              href="#"
-              className="hover:text-neon-cyan transition-colors duration-300"
-            >
-              Terms
-            </a>
-            <a
-              href="#"
-              className="hover:text-neon-cyan transition-colors duration-300"
-            >
-              Source Code
-            </a>
-          </motion.div>
         </div>
 
         {/* Decorative line */}
