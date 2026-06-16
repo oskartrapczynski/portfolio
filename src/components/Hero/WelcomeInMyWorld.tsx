@@ -32,7 +32,7 @@ export const WelcomeInMyWorld = forwardRef<
   const textColor = useTransform(
     scrollYProgress,
     glowFrames,
-    ['#000', '#000', '#000', '#000', '#000', '#fff', '#000', '#00ffff', '#00ffff']
+    ['#000', '#000', '#000', '#000', '#000', '#000', '#000', '#00ffff', '#00ffff']
   )
 
   const brandTextShadow = useMotionTemplate`0 0 10px rgba(0, 255, 255, ${glow}), 0 0 20px rgba(0, 255, 255, ${glow}), 0 0 30px rgba(0, 255, 255, ${glow})`

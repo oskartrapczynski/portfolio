@@ -22,7 +22,7 @@ export const Navigation = () => {
   }, [])
 
   const navItems = [
-    { label: 'Home', href: '#' },
+    { label: 'Start', href: '#' },
     { label: 'About', href: '#about' },
     { label: 'Projects', href: '#projects' },
     { label: 'Contact', href: '#contact' },
