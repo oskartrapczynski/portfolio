@@ -125,6 +125,63 @@
   animation: neon-flicker 1.4s ease-in-out both;
 }
 
+/* Skill cards — per-card neon accent sterowany zmienną --accent */
+.skill-card {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  background:
+    radial-gradient(
+      130% 130% at 50% 0%,
+      color-mix(in srgb, var(--accent) 9%, transparent),
+      transparent 58%
+    ),
+    rgba(0, 0, 0, 0.72);
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+}
+
+.skill-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow:
+    0 0 32px color-mix(in srgb, var(--accent) 28%, transparent),
+    inset 0 0 22px color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+.skill-icon {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, rgba(0, 0, 0, 0.45));
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.skill-card:hover .skill-icon {
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.skill-tag {
+  color: #d1d5db;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.skill-card:hover .skill-tag {
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.skill-tag:hover {
+  color: color-mix(in srgb, var(--accent) 85%, white);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: var(--accent);
+}
+
 /* Grid background */
 .grid-bg {
   background-image:

@@ -12,15 +12,13 @@ const skills = [
     category: 'Development',
     icon: Code2,
     items: ['React', 'Node.js', 'TypeScript', 'Python', 'PostgreSQL', 'Docker'],
-    color: 'text-neon-cyan',
-    borderColor: 'border-neon-cyan',
+    accent: '#00ffff',
   },
   {
     category: 'Music Production',
     icon: Music,
     items: ['Ableton Live', 'FL Studio', 'Sound Design', 'Mixing', 'Mastering'],
-    color: 'text-neon-cyan',
-    borderColor: 'border-neon-blue',
+    accent: '#a78bfa',
   },
   {
     category: 'DJing',
@@ -32,8 +30,7 @@ const skills = [
       'Track Selection',
       'Mixing',
     ],
-    color: 'text-neon-cyan',
-    borderColor: 'border-neon-cyan',
+    accent: '#ff2d95',
   },
   {
     category: 'Video Editing',
@@ -44,22 +41,19 @@ const skills = [
       'DaVinci Resolve',
       'Motion Graphics',
     ],
-    color: 'text-neon-cyan',
-    borderColor: 'border-neon-blue',
+    accent: '#38bdf8',
   },
   {
     category: '2D Graphics',
     icon: Palette,
     items: ['Photoshop', 'Illustrator', 'Figma', 'UI/UX Design'],
-    color: 'text-neon-cyan',
-    borderColor: 'border-neon-cyan',
+    accent: '#fbbf24',
   },
   {
     category: '3D Graphics',
     icon: Box,
     items: ['Blender', '3D Modeling', 'Rendering', 'Animation'],
-    color: 'text-neon-cyan',
-    borderColor: 'border-neon-blue',
+    accent: '#34d399',
   },
 ]
 
@@ -148,19 +142,17 @@ export const Hero = () => {
             <motion.div
               key={skill.category}
               variants={itemVariants}
-              whileHover={{ scale: 1.05, y: -10 }}
+              whileHover={{ scale: 1.04, y: -8 }}
+              style={{ ['--accent' as string]: skill.accent }}
             >
-              <Card
-                className={`group h-full bg-black/70 backdrop-blur-sm border ${skill.borderColor} transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,255,255,0.3)]`}
-              >
+              <Card className="skill-card group h-full rounded-xl backdrop-blur-sm">
                 <CardHeader className="flex-row items-center gap-3 space-y-0 pb-4">
-                  <div
-                    className={`p-3 bg-gray-900 rounded-lg ${skill.color} transition-transform duration-300 group-hover:scale-110`}
-                  >
-                    <skill.icon className="w-6 h-6" />
+                  <div className="skill-icon rounded-lg p-3 transition-transform duration-300 group-hover:scale-110">
+                    <skill.icon className="h-6 w-6" />
                   </div>
                   <CardTitle
-                    className={`text-xl font-bold font-mono ${skill.color}`}
+                    className="font-mono text-xl font-bold"
+                    style={{ color: skill.accent }}
                   >
                     {skill.category}
                   </CardTitle>
@@ -170,7 +162,7 @@ export const Hero = () => {
                     {skill.items.map((item) => (
                       <span
                         key={item}
-                        className="px-3 py-1 text-sm bg-gray-900 text-gray-300 rounded-full border border-gray-700 hover:border-neon-cyan transition-colors duration-300"
+                        className="skill-tag rounded-full px-3 py-1 text-sm"
                       >
                         {item}
                       </span>
