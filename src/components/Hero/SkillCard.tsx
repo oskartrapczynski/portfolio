@@ -9,6 +9,8 @@ import {
   type Variants,
 } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
+import { Badge } from '../ui/badge'
+import { ExternalLink } from 'lucide-react'
 
 type Skill = {
   category: string
@@ -89,7 +91,6 @@ export const SkillCard = ({
   return (
     <motion.div
       variants={variants}
-      onPointerMove={handlePointerMove}
       onPointerEnter={() => {
         if (isCoarse) return
         setHovered(true)
@@ -100,20 +101,25 @@ export const SkillCard = ({
         setHovered(false)
         onHoverChange(false)
       }}
-      style={{
-        ['--accent' as string]: skill.accent,
-        rotateX,
-        rotateY,
-        transformPerspective: 900,
-        transformStyle: 'preserve-3d',
-      }}
+      style={{ ['--accent' as string]: skill.accent }}
     >
+      {/* Tilt na osobnej warstwie — nie rusza wrappera, więc hover jest stabilny.
+          Bez preserve-3d: karta to jedna spłaszczona płaszczyzna, więc badge'y są
+          hit-testowane w 2D i kursor ich nie gubi przy przechylaniu. */}
       <motion.div
-        animate={isActive ? { scale: 1.04, y: -8 } : { scale: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+        style={{
+          rotateX,
+          rotateY,
+          transformPerspective: 900,
+        }}
       >
+        <motion.div
+          animate={isActive ? { scale: 1.04, y: -8 } : { scale: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+        >
         <Card
           data-active={isActive}
+          onPointerMove={handlePointerMove}
           className="skill-card group relative h-full select-none overflow-hidden rounded-xl backdrop-blur-sm"
         >
           <motion.div
@@ -130,6 +136,9 @@ export const SkillCard = ({
           >
             <skill.icon className="h-24 w-24" />
           </motion.div>
+          <div className='absolute top-2 right-2'>
+            <ExternalLink className='size-6 text-[var(--accent)] opacity-40 transition-opacity group-hover:opacity-80 group-data-[active=true]:opacity-80' />
+          </div>
           <CardHeader className="relative z-10 flex-row items-center gap-3 space-y-0 pb-4">
             <div className="skill-icon rounded-lg p-3 transition-transform duration-300 group-hover:scale-110 group-data-[active=true]:scale-110">
               <skill.icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-150 group-data-[active=true]:scale-150" />
@@ -142,18 +151,21 @@ export const SkillCard = ({
             </CardTitle>
           </CardHeader>
           <CardContent className="relative z-10">
-            <div className="flex flex-wrap gap-2">
+            <div className="-m-1 flex flex-wrap">
               {skill.items.map((item) => (
-                <span
-                  key={item}
-                  className="skill-tag rounded-full px-3 py-1 text-sm"
-                >
-                  {item}
-                </span>
+                <div key={item} className="skill-tag-wrap p-1">
+                  <Badge
+                    variant="outline"
+                    className="skill-tag px-3 py-1 text-sm font-normal"
+                  >
+                    {item}
+                  </Badge>
+                </div>
               ))}
             </div>
           </CardContent>
         </Card>
+        </motion.div>
       </motion.div>
     </motion.div>
   )

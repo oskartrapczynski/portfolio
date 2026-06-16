@@ -38,7 +38,9 @@ export const Navigation = () => {
       <motion.nav
         style={{ backgroundColor }}
         className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all duration-300 ${
-          isScrolled ? 'border-neon-cyan/30' : 'border-transparent'
+          isScrolled
+            ? 'border-[color:var(--hero-accent,#00ffff)]'
+            : 'border-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

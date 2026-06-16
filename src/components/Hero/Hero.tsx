@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   easeOut,
   motion,
@@ -131,6 +131,12 @@ export const Hero = () => {
     (hoveredIndex != null && skills[hoveredIndex].accent) ||
     (activeCard != null && skills[activeCard].accent) ||
     DEFAULT_ACCENT
+
+  // Wystawiamy akcent globalnie (na :root), żeby elementy poza sekcją hero —
+  // np. obramowanie Navigation — też mogły z niego korzystać przez var().
+  useEffect(() => {
+    document.documentElement.style.setProperty('--hero-accent', activeAccent)
+  }, [activeAccent])
 
   const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()

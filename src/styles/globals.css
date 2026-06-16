@@ -24,7 +24,9 @@
     --input: 0 0% 20%;
     --ring: 180 100% 50%;
     --radius: 0.5rem;
-    --neon-color: #00ffff
+    --neon-color: #00ffff;
+    /* Bazowy akcent sekcji hero — nadpisywany dynamicznie przez aktywną kartę. */
+    --hero-accent: #00ffff;
   }
 }
 
@@ -178,9 +180,9 @@
 }
 
 .skill-tag {
-  color: #d1d5db;
+  color: var(--accent);
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid color-mix(in srgb, var(--accent) 10%, transparent);
   transition:
     color 0.25s ease,
     border-color 0.25s ease,
@@ -196,10 +198,11 @@
     border-color: color-mix(in srgb, var(--accent) 30%, transparent);
   }
 
-  .skill-tag:hover {
-    color: color-mix(in srgb, var(--accent) 85%, white);
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
-    border-color: var(--accent);
+  /* Hover liczony na stykających się wrapperach (bez szczelin), żeby tilt nie
+     wyrzucał kursora w lukę między badge'ami — inaczej tło migałoby. */
+  .skill-tag-wrap:hover .skill-tag {
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
   }
 }
 
