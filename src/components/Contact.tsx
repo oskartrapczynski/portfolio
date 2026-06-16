@@ -51,10 +51,10 @@ export const Contact = () => {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-5xl md:text-7xl font-bold mb-6 neon-glow font-mono">
-            {'<'} GET IN TOUCH {'>'}
+          <h2 className="text-5xl md:text-7xl font-bold mb-6 text-neon-cyan font-mono">
+            {'< GET IN TOUCH >'}
           </h2>
-          <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-neon-blue mb-12 max-w-2xl mx-auto">
             Have a project in mind or just want to chat about tech, music, or
             design? Let's connect and create something amazing together.
           </p>
