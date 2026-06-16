@@ -160,7 +160,7 @@ export const Hero = () => {
       className="hero-accent relative min-h-screen flex items-center justify-center overflow-x-clip px-4"
     >
       <motion.div
-        className="absolute inset-0 grid-bg opacity-20"
+        className="absolute inset-0 grid-bg opacity-40"
         style={{ backgroundPosition: gridPos }}
       />
       <motion.div
