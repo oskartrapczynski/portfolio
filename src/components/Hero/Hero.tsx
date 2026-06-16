@@ -109,6 +109,7 @@ export const Hero = () => {
 
   return (
     <section
+      id="hero"
       ref={sectionRef}
       onPointerMove={handlePointerMove}
       style={{ ['--hero-accent' as string]: activeAccent }}
