@@ -15,16 +15,10 @@ import { useTopCardIndex } from '../../lib/useTopCardIndex'
 
 const skills = [
   {
-    category: 'Development',
+    category: 'Programming',
     icon: Code2,
     items: ['React', 'Node.js', 'TypeScript', 'Python', 'PostgreSQL', 'Docker'],
     accent: '#00ffff',
-  },
-  {
-    category: 'Music Production',
-    icon: Music,
-    items: ['Ableton Live', 'FL Studio', 'Sound Design', 'Mixing', 'Mastering'],
-    accent: '#a78bfa',
   },
   {
     category: 'DJing',
@@ -39,15 +33,10 @@ const skills = [
     accent: '#ff2d95',
   },
   {
-    category: 'Video Editing',
-    icon: Film,
-    items: [
-      'Premiere Pro',
-      'After Effects',
-      'DaVinci Resolve',
-      'Motion Graphics',
-    ],
-    accent: '#38bdf8',
+    category: 'Music Production',
+    icon: Music,
+    items: ['Ableton Live', 'FL Studio', 'Sound Design', 'Mixing', 'Mastering'],
+    accent: '#a78bfa',
   },
   {
     category: '2D Graphics',
@@ -59,7 +48,18 @@ const skills = [
     category: '3D Graphics',
     icon: Box,
     items: ['Blender', '3D Modeling', 'Rendering', 'Animation'],
-    accent: '#34d399',
+    accent: '#ff8200',
+  },
+  {
+    category: 'Video Editing',
+    icon: Film,
+    items: [
+      'Premiere Pro',
+      'After Effects',
+      'DaVinci Resolve',
+      'Motion Graphics',
+    ],
+    accent: '#00ff41ff',
   },
 ]
 
