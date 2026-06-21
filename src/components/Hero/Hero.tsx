@@ -48,11 +48,6 @@ export const Hero = () => {
   const sx = useSpring(mx, { stiffness: 120, damping: 25 })
   const sy = useSpring(my, { stiffness: 120, damping: 25 })
 
-  // Spotlight podążający za kursorem.
-  const spotX = useTransform(sx, [0, 1], ['0%', '100%'])
-  const spotY = useTransform(sy, [0, 1], ['0%', '100%'])
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${spotX} ${spotY}, color-mix(in srgb, var(--hero-accent) 12%, transparent), transparent 70%)`
-
   // Lekki parallax siatki w przeciwną stronę niż ruch kursora.
   const gridX = useTransform(sx, [0, 1], [20, -20])
   const gridY = useTransform(sy, [0, 1], [20, -20])
@@ -118,11 +113,6 @@ export const Hero = () => {
       <motion.div
         className="absolute inset-0 grid-bg opacity-40"
         style={{ backgroundPosition: gridPos }}
-      />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{ background: spotlight }}
       />
       <div className="scanline absolute inset-0"></div>
 
