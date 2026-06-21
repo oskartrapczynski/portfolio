@@ -1,4 +1,10 @@
-import { siGithub, siX, siInstagram, siSoundcloud, siGmail } from 'simple-icons'
+import {
+  siGithub,
+  siInstagram,
+  siSoundcloud,
+  siGmail,
+  siFacebook,
+} from 'simple-icons'
 
 const siLinkedin = {
   title: 'LinkedIn',
@@ -10,7 +16,7 @@ type IconType = (typeof ICONS)[keyof typeof ICONS]
 export const ICONS = {
   linkedin: siLinkedin,
   github: siGithub,
-  x: siX,
+  fb: siFacebook,
   instagram: siInstagram,
   soundcloud: siSoundcloud,
   gmail: siGmail,
