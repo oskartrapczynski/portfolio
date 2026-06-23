@@ -4,6 +4,8 @@ import {
   siSoundcloud,
   siGmail,
   siFacebook,
+  siYoutube,
+  siSpotify,
 } from 'simple-icons'
 import type { IconType } from './types'
 
@@ -19,6 +21,8 @@ export const ICONS = {
   instagram: siInstagram,
   soundcloud: siSoundcloud,
   gmail: siGmail,
+  yotube: siYoutube,
+  spotify: siSpotify,
 } as const
 
 export const socialLinks: {
@@ -31,36 +35,48 @@ export const socialLinks: {
     icon: ICONS.linkedin,
     href: 'https://www.linkedin.com/in/oskar-trapczynski/',
     label: 'LinkedIn',
-    accent: '#0a66c2',
+    accent: '#0A66C2',
   },
   {
     icon: ICONS.github,
     href: 'https://github.com/oskartrapczynski',
     label: 'GitHub',
-    accent: '#f5f5f5',
+    accent: '#FFF',
   },
   {
-    icon: ICONS.fb,
-    href: 'https://www.facebook.com/OskarT.TOfficial',
-    label: 'Twitter',
-    accent: '#ffffff',
+    icon: ICONS.yotube,
+    href: 'https://www.youtube.com/@OskarTT',
+    label: 'Youtube',
+    accent: '#FF0000',
+  },
+  {
+    icon: ICONS.spotify,
+    href: 'https://open.spotify.com/artist/2OVetJ63mx7fvwt2xKPfYY',
+    label: 'Spotify',
+    accent: '#1DB954',
   },
   {
     icon: ICONS.instagram,
     href: 'https://www.instagram.com/oskarttofficial/',
     label: 'Instagram',
-    accent: '#e4405f',
+    accent: '#E1306C',
+  },
+  {
+    icon: ICONS.fb,
+    href: 'https://www.facebook.com/OskarT.TOfficial',
+    label: 'Facebook',
+    accent: '#1877F2',
   },
   {
     icon: ICONS.soundcloud,
     href: 'https://soundcloud.com/oskarttofficial',
     label: 'SoundCloud',
-    accent: '#ff5500',
+    accent: '#FF5500',
   },
   {
     icon: ICONS.gmail,
     href: 'mailto:oskar.trapczynski@gmail.com',
-    label: 'Email',
-    accent: '#ea4335',
+    label: 'Gmail',
+    accent: '#EA4335',
   },
 ]
