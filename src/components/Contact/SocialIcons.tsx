@@ -1,49 +1,18 @@
 import { motion } from 'framer-motion'
-import { ICONS, SocialIcon } from './SocialIcon'
+import { SocialIcon } from './SocialIcon'
 import type { IsInViewType } from './types'
+import { socialLinks } from './socialIcons.const'
 
-const socialLinks = [
-  {
-    icon: ICONS.linkedin,
-    href: 'https://www.linkedin.com/in/oskar-trapczynski/',
-    label: 'LinkedIn',
-    accent: '#0a66c2',
-  },
-  {
-    icon: ICONS.github,
-    href: 'https://github.com/oskartrapczynski',
-    label: 'GitHub',
-    accent: '#f5f5f5',
-  },
-  {
-    icon: ICONS.fb,
-    href: 'https://www.facebook.com/OskarT.TOfficial',
-    label: 'Twitter',
-    accent: '#ffffff',
-  },
-  {
-    icon: ICONS.instagram,
-    href: 'https://www.instagram.com/oskarttofficial/',
-    label: 'Instagram',
-    accent: '#e4405f',
-  },
-  {
-    icon: ICONS.soundcloud,
-    href: 'https://soundcloud.com/oskarttofficial',
-    label: 'SoundCloud',
-    accent: '#ff5500',
-  },
-  {
-    icon: ICONS.gmail,
-    href: 'mailto:oskar.trapczynski@gmail.com',
-    label: 'Email',
-    accent: '#ea4335',
-  },
-]
+type SocialIconsProps = {
+  activeAccentColor: string
+  setIconId: (id: number | null) => void
+} & IsInViewType
 
-type SocialIconsProps = {} & IsInViewType
-
-export const SocialIcons = ({ isInView }: SocialIconsProps) => {
+export const SocialIcons = ({
+  activeAccentColor,
+  isInView,
+  setIconId,
+}: SocialIconsProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -63,7 +32,13 @@ export const SocialIcons = ({ isInView }: SocialIconsProps) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <SocialIcon icon={link.icon} className="w-6 h-6" />
+          {/* dokonczyc zmiane hover accent dla sekcji kontakt (jak w hero) */}
+          <SocialIcon
+            key={link.label}
+            icon={link.icon}
+            className="w-6 h-6"
+            activeAccentColor={activeAccentColor}
+          />
         </motion.a>
       ))}
     </motion.div>

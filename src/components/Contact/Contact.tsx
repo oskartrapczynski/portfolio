@@ -6,18 +6,21 @@ import {
   useSpring,
   useTransform,
 } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { DecorativeCorners } from './DecorativeCorners'
 import { SocialIcons } from './SocialIcons'
 import { BackToTop } from './BackToTop'
+import { socialLinks } from './socialIcons.const'
 
 const HEADER_TEXT = 'GET IN TOUCH'
 const HEADER_SUBTEXT =
   "Have a project in mind or just want to chat about tech, music, or design? Let's connect and create something amazing together."
 
 export const Contact = () => {
+  const [iconId, setIconId] = useState<number | null>(null)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const activeAccentColor = iconId ? socialLinks[iconId]?.accent : '#00ffff'
 
   // Pozycja kursora względem sekcji (0..1) — steruje tłem.
   const mx = useMotionValue(0.5)
@@ -60,10 +63,16 @@ export const Contact = () => {
           <h2 className="text-4xl md:text-7xl font-bold mb-6 text-neon-cyan font-mono">
             {HEADER_TEXT}
           </h2>
-          <p className="text-xl text-neon-blue mb-12 max-w-2xl mx-auto">
+          <p
+            className={`text-xl text-[var(--hero-accent)] mb-12 max-w-2xl mx-auto`}
+          >
             {HEADER_SUBTEXT}
           </p>
-          <SocialIcons isInView={isInView} />
+          <SocialIcons
+            isInView={isInView}
+            activeAccentColor={activeAccentColor}
+            setIconId={setIconId}
+          />
           <BackToTop isInView={isInView} />
         </motion.div>
         <DecorativeCorners isInView={isInView} />
