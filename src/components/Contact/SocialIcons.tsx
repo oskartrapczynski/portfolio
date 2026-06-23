@@ -23,13 +23,16 @@ export const SocialIcons = ({ isInView, setIconId }: SocialIconsProps) => {
           whileHover={{ scale: 1.1, y: -5 }}
           whileTap={{ scale: 0.95 }}
           style={{ ['--accent' as string]: link.accent }}
-          className="social-link rounded-lg p-3 backdrop-blur-sm"
+          className="social-link group rounded-lg p-3 backdrop-blur-sm"
           target="_blank"
           rel="noopener noreferrer"
           onMouseEnter={() => setIconId(index)}
           onMouseLeave={() => setIconId(null)}
         >
-          <SocialIcon icon={link.icon} className="w-6 h-6" />
+          <SocialIcon
+            icon={link.icon}
+            className="h-6 w-6 transition-transform duration-300 group-hover:scale-150"
+          />
         </motion.a>
       ))}
     </motion.div>
