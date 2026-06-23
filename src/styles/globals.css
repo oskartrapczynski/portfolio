@@ -46,7 +46,7 @@
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar — thumb podąża za aktywnym akcentem (--hero-accent). */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -56,12 +56,18 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00ffff;
+  background: var(--hero-accent);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00cccc;
+  /* lekko przyciemniony akcent zamiast stałego #00cccc */
+  background: color-mix(in srgb, var(--hero-accent) 80%, black);
+}
+
+/* Firefox — nie zna ::-webkit-scrollbar, używa scrollbar-color: <thumb> <track>. */
+html {
+  scrollbar-color: var(--hero-accent) #0a0a0a;
 }
 
 /* Neon glow effects */
