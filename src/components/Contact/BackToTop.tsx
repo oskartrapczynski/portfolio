@@ -16,7 +16,7 @@ export const BackToTop = ({ isInView }: BackToTopProps) => {
       <Button
         variant="outline"
         size="lg"
-        className="text-lg text-neon-cyan font-mono border-neon-cyan/30"
+        className="text-lg text-[var(--hero-accent)] font-mono border-[color:color-mix(in_srgb,var(--hero-accent)_30%,transparent)] transition-colors duration-300"
         onClick={() => scrollToTarget(0)}
       >
         Back to Top

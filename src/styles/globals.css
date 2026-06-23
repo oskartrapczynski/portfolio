@@ -209,18 +209,31 @@
 .social-link {
   color: rgba(0, 255, 255, 0.6);
   border: 1px solid rgba(0, 255, 255, 0.3);
+  /* Ta sama krzywa i czas co Tailwindowe `transition-colors duration-300`
+     na pozostałych elementach sekcji (nagłówek, narożniki, footer, navbar). */
   transition:
-    color 0.3s ease,
-    border-color 0.3s ease,
-    background 0.3s ease,
-    box-shadow 0.3s ease;
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Najechana ikona: pełny brandowy kolor (--accent). "Grubszy border" robimy
+   pierścieniem box-shadow (0 0 0 2px) — nie zajmuje miejsca w layoucie, więc nie
+   rozjeżdża pozostałych ikon. Drugi shadow to poświata. */
 .social-link:hover {
   color: var(--accent);
   border-color: color-mix(in srgb, var(--accent) 60%, transparent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 28%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent),
+    0 0 24px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+/* Pozostałe ikony przejmują kolor najechanej (--hero-accent), ale przygaszony. */
+.social-links:hover .social-link:not(:hover) {
+  color: color-mix(in srgb, var(--hero-accent) 50%, transparent);
+  border-color: color-mix(in srgb, var(--hero-accent) 25%, transparent);
 }
 
 /* Grid background */

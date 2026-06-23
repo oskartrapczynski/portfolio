@@ -6,7 +6,7 @@ import {
   useSpring,
   useTransform,
 } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { DecorativeCorners } from './DecorativeCorners'
 import { SocialIcons } from './SocialIcons'
 import { BackToTop } from './BackToTop'
@@ -20,7 +20,19 @@ export const Contact = () => {
   const [iconId, setIconId] = useState<number | null>(null)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
-  const activeAccentColor = iconId ? socialLinks[iconId]?.accent : '#00ffff'
+  // Aktywny akcent: kolor najechanej ikony społecznościowej > kolor bazowy.
+  // Rozlewa się na nagłówek, podtekst i spotlight przez --hero-accent (jak w Hero).
+  const activeAccentColor =
+    (iconId != null && socialLinks[iconId]?.accent) || '#00ffff'
+
+  // Wystawiamy akcent globalnie (na :root) — tak jak Hero — żeby elementy poza
+  // sekcją kontakt (dolna linia Navigation, tekst i linia Footer) też reagowały.
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--hero-accent',
+      activeAccentColor
+    )
+  }, [activeAccentColor])
 
   // Pozycja kursora względem sekcji (0..1) — steruje tłem.
   const mx = useMotionValue(0.5)
@@ -47,6 +59,7 @@ export const Contact = () => {
       className="relative py-32 px-4"
       ref={ref}
       onPointerMove={handlePointerMove}
+      style={{ ['--hero-accent' as string]: activeAccentColor }}
     >
       <div className="max-w-4xl mx-auto">
         <motion.div
@@ -60,19 +73,15 @@ export const Contact = () => {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-4xl md:text-7xl font-bold mb-6 text-neon-cyan font-mono">
+          <h2 className="text-4xl md:text-7xl font-bold mb-6 text-[var(--hero-accent)] font-mono transition-colors duration-300">
             {HEADER_TEXT}
           </h2>
           <p
-            className={`text-xl text-[var(--hero-accent)] mb-12 max-w-2xl mx-auto`}
+            className={`text-xl text-[var(--hero-accent)] opacity-60 mb-12 max-w-2xl mx-auto transition-colors duration-300`}
           >
             {HEADER_SUBTEXT}
           </p>
-          <SocialIcons
-            isInView={isInView}
-            activeAccentColor={activeAccentColor}
-            setIconId={setIconId}
-          />
+          <SocialIcons isInView={isInView} setIconId={setIconId} />
           <BackToTop isInView={isInView} />
         </motion.div>
         <DecorativeCorners isInView={isInView} />

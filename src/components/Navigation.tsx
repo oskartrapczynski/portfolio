@@ -79,7 +79,7 @@ export const Navigation = () => {
                   key={label}
                   href={href}
                   className="text-gray-300 hover:text-neon-cyan transition-colors duration-300 font-mono"
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.1, transition: { delay: 0 } }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -93,7 +93,7 @@ export const Navigation = () => {
 
             {/* Mobile menu button */}
             <button
-              className="md:hidden text-neon-cyan"
+              className="md:hidden text-gray-300"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (

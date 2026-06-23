@@ -3,13 +3,9 @@ import type { IconType } from './types'
 export const SocialIcon = ({
   icon,
   className,
-  activeAccentColor,
-  setIconId,
 }: {
   icon: IconType
   className?: string
-  activeAccentColor: string
-  setIconId: (id: number | null) => void
 }) => {
   return (
     <svg
@@ -19,10 +15,6 @@ export const SocialIcon = ({
       fill="currentColor"
       aria-label={icon.title}
       className={className}
-      style={{ ['--contact-accent' as string]: activeAccentColor }}
-      onHoverChange={(h) =>
-        setIconId((prev) => (h ? i : prev === i ? null : prev))
-      }
     >
       <path d={icon.path} />
     </svg>
