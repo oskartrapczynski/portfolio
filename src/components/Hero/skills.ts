@@ -96,7 +96,4 @@ export const SKILLS: Skill[] = [
   videoEditing,
 ]
 
-export const NAV_ITEMS = [
-  { label: 'Start', href: '#', scrollLink: true },
-  ...SKILLS,
-]
+export const NAV_ITEMS = [{ label: 'Home', href: '/' }, ...SKILLS]
