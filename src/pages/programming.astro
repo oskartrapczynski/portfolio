@@ -1,0 +1,18 @@
+---
+import Layout from '../components/Layout.astro'
+import { SmoothScroll } from '../components/SmoothScroll'
+import { Navigation } from '../components/Navigation'
+import { Programming as ProgrammingSection } from '../components/Programming/Programming'
+import { Footer } from '../components/Footer'
+---
+
+<Layout title="Programming - Oskar T.T">
+  <!-- Płynny scroll (Lenis). Usuń tę linię, by wyłączyć. -->
+  <SmoothScroll client:load />
+
+  <main class="relative overflow-x-clip bg-background">
+    <Navigation client:load />
+    <ProgrammingSection client:load />
+    <Footer client:load />
+  </main>
+</Layout>

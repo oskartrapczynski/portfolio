@@ -24,7 +24,7 @@ const programing: Skill = {
   ],
   accent: '#00ffff',
   scrollLink: false,
-  href: '/wip',
+  href: '/programming',
 }
 
 const djing: Skill = {
