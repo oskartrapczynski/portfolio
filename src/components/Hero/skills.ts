@@ -65,7 +65,14 @@ const graphic2d: Skill = {
 const graphic3d: Skill = {
   label: '3D Graphics',
   icon: Box,
-  items: ['Blender', '3D Modeling', 'Rendering', 'Animation'],
+  items: [
+    'Blender',
+    'ThreeJS',
+    'Unity',
+    '3D Modeling',
+    'Rendering',
+    'Animation',
+  ],
   accent: '#ff8200',
   scrollLink: false,
   href: '/wip',
