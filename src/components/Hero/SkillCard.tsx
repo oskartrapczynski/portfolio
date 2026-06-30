@@ -166,7 +166,7 @@ export const SkillCard = ({
                 </CardTitle>
               </CardHeader>
               <CardContent className="relative z-10">
-                <div className="-m-1 flex flex-wrap">
+                <div className="-m-1 flex flex-wrap justify-center">
                   {skill.items.map((item) => (
                     <div key={item} className="skill-tag-wrap p-1">
                       <Badge

@@ -13,7 +13,15 @@ export type Skill = {
 const programing: Skill = {
   label: 'Programming',
   icon: Code2,
-  items: ['React', 'Node.js', 'TypeScript', 'Python', 'PostgreSQL', 'Docker'],
+  items: [
+    'Front-end',
+    'Back-end',
+    'Fullstack',
+    'GenAI',
+    'FinTech',
+    'BioTech',
+    'WorkTech',
+  ],
   accent: '#00ffff',
   scrollLink: false,
   href: '/wip',
@@ -22,7 +30,7 @@ const programing: Skill = {
 const djing: Skill = {
   label: 'DJing',
   icon: Disc3,
-  items: ['Traktor', 'Serato', 'Live Performance', 'Track Selection', 'Mixing'],
+  items: ['Festivals', 'Clubs', 'Sport & TV events', 'Karaoke', 'Weddings'],
   accent: '#ff2d95',
   scrollLink: false,
   href: '/wip',
@@ -31,7 +39,7 @@ const djing: Skill = {
 const musicProduction: Skill = {
   label: 'Music Production',
   icon: Music,
-  items: ['Ableton Live', 'FL Studio', 'Sound Design', 'Mixing', 'Mastering'],
+  items: ['FL Studio', 'Sound Design', 'Mixing', 'Mastering'],
   accent: '#a78bfa',
   scrollLink: false,
   href: '/wip',
@@ -40,7 +48,15 @@ const musicProduction: Skill = {
 const graphic2d: Skill = {
   label: '2D Graphics',
   icon: Palette,
-  items: ['Photoshop', 'Illustrator', 'Figma', 'UI/UX Design'],
+  items: [
+    'Photoshop',
+    'Illustrator',
+    'Canva',
+    'Figma',
+    'Logo',
+    'Advertisements',
+    'UI/UX Design',
+  ],
   accent: '#fbbf24',
   scrollLink: false,
   href: '/wip',
@@ -58,12 +74,7 @@ const graphic3d: Skill = {
 const videoEditing: Skill = {
   label: 'Video Editing',
   icon: Film,
-  items: [
-    'Premiere Pro',
-    'After Effects',
-    'DaVinci Resolve',
-    'Motion Graphics',
-  ],
+  items: ['Premiere Pro', 'After Effects', 'Music Videos', 'Advertisements'],
   accent: '#00ff41ff',
   scrollLink: false,
   href: '/wip',
