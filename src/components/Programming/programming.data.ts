@@ -15,6 +15,7 @@ import {
   Languages,
   Award,
   Sparkles,
+  ExternalLink,
 } from 'lucide-react'
 
 type Icon = ComponentType<{ className?: string }>
@@ -154,16 +155,20 @@ export const TECH_STACK: SkillGroup[] = [
   },
 ]
 
-export type Experience = {
+// Pola wspólne dla wpisów doświadczenia i side-projectów — reużywane niżej.
+export type ProjectBase = {
+  period: string
+  summary: string
+  highlights: string[]
+  stack: string[]
+}
+
+export type Experience = ProjectBase & {
   role: string
   domain?: string
   flag?: string
   company: string
-  period: string
   current?: boolean
-  summary: string
-  duties: string[]
-  stack: string[]
 }
 
 export const EXPERIENCES: Experience[] = [
@@ -176,7 +181,7 @@ export const EXPERIENCES: Experience[] = [
     current: true,
     summary:
       'Developing full-stack features for a biotechnology platform coordinating complex biological processes. Focusing on integration of research management panels, real-time communication with specialized hardware, and optimization of scientific workflows.',
-    duties: [
+    highlights: [
       'Developing and maintaining full-stack features within an existing modular biotechnology platform',
       'Building and enhancing complex research management dashboards with focus on usability and workflows',
       'Integrating and maintaining APIs and handling data flows across systems',
@@ -214,7 +219,7 @@ export const EXPERIENCES: Experience[] = [
     period: 'Jan 2025 — Dec 2025',
     summary:
       'Developing fullstack features for a financial web application for clients, advisors and stakeholders. Focusing on real-time data visualization, REST and GraphQL communication, integration with external APIs, and accessibility (WCAG, a11y).',
-    duties: [
+    highlights: [
       'Building and maintaining reusable UI components in React with TypeScript and MUI',
       'Implementing backend services and GraphQL APIs with Node.js and Express',
       'Integrating internal and external services and data synchronization',
@@ -248,7 +253,7 @@ export const EXPERIENCES: Experience[] = [
     period: 'Sep 2024 — Dec 2024',
     summary:
       'Working on a Virtual Assistant widget leveraging 3D models and AI-powered Text-to-Speech and Speech-to-Text. The work involved integrating advanced AI, WebGL rendering and optimizing the assistant for seamless user experiences.',
-    duties: [
+    highlights: [
       'Integrated AI-driven speech and rendering technologies (OpenAI, AzureAI, CereProc)',
       'Created interactive 3D experiences with Three.js and React Unity WebGL',
       'Optimised frontend rendering and API performance using Vite and NX',
@@ -283,7 +288,7 @@ export const EXPERIENCES: Experience[] = [
     period: 'Jul 2024 — Sep 2024',
     summary:
       'Developed and improved the admin control panel UI for an internal project — implementing new frontend components, testing APIs, enhancing backend features and fixing bugs to modernize and optimize the system.',
-    duties: [
+    highlights: [
       'Implemented modern UI components and improved UX with React and Styled Components',
       'Enhanced backend features and database models using NestJS and Prisma',
       'Automated testing pipelines using Jest, Playwright, and Pact',
@@ -315,7 +320,7 @@ export const EXPERIENCES: Experience[] = [
     period: 'Apr 2024 — Jul 2024',
     summary:
       'Intensive training covering modeling, analysis, design, architecture selection, coding, testing, refactoring, and TDD — alongside best software development practices, teamwork, and creative thinking techniques.',
-    duties: [
+    highlights: [
       'Learning and applying principles of software modeling, analysis, and design',
       'Gaining experience in selecting architectures for scalable applications',
       'Practicing writing clean, maintainable code following best practices',
@@ -329,6 +334,78 @@ export const EXPERIENCES: Experience[] = [
       'Refactoring',
       'Teamwork',
       'Creative Thinking',
+    ],
+  },
+]
+
+export type SideProjectLink = {
+  label: string
+  href: string
+  icon: Icon
+}
+
+export type SideProject = ProjectBase & {
+  name: string
+  tagline?: string
+  links?: SideProjectLink[]
+}
+
+// Zamockowane przykłady — uzupełnij / podmień własnymi projektami.
+export const SIDE_PROJECTS: SideProject[] = [
+  {
+    name: 'Live E-commerce Platform',
+    tagline: 'Full-stack shop',
+    period: '2024 — Present',
+    summary:
+      'A production e-commerce platform built and maintained solo — from storefront and cart to payments, order management and an admin dashboard.',
+    highlights: [
+      'Designed a scalable Next.js storefront with server-side rendering and image optimization',
+      'Integrated Stripe payments and a custom order/inventory management panel',
+      'Deployed on a CI/CD pipeline with preview environments per pull request',
+    ],
+    stack: [
+      'Next.js',
+      'TypeScript',
+      'Prisma',
+      'PostgreSQL',
+      'Stripe',
+      'Tailwind',
+    ],
+    links: [
+      { label: 'Live', href: 'https://example.com', icon: ExternalLink },
+      { label: 'Code', href: 'https://github.com/oskartrapczynski', icon: Github },
+    ],
+  },
+  {
+    name: 'This Portfolio',
+    tagline: 'Cinematic personal site',
+    period: '2025',
+    summary:
+      'An interactive portfolio with a scroll-scrubbed WebP intro film, smooth Lenis scroll and framer-motion reveal animations, built on Astro islands.',
+    highlights: [
+      'Built a canvas-based scroll-driven video intro synced to page scroll',
+      'Combined Astro islands with React for selective hydration and fast loads',
+      'Crafted a consistent neon design system reused across every section',
+    ],
+    stack: ['Astro', 'React', 'TypeScript', 'framer-motion', 'Lenis', 'Tailwind'],
+    links: [
+      { label: 'Code', href: 'https://github.com/oskartrapczynski', icon: Github },
+    ],
+  },
+  {
+    name: 'AI Assistant CLI',
+    tagline: 'Terminal AI tool',
+    period: '2025',
+    summary:
+      'A command-line assistant that streams model responses, runs local tools and keeps conversation context — a playground for AI-powered developer tooling.',
+    highlights: [
+      'Implemented streaming responses with a tool-calling loop over the OpenAI API',
+      'Added a plugin system so new tools can be dropped in without core changes',
+      'Persisted sessions locally with resumable, searchable history',
+    ],
+    stack: ['Node.js', 'TypeScript', 'OpenAI', 'Commander', 'Vitest'],
+    links: [
+      { label: 'Code', href: 'https://github.com/oskartrapczynski', icon: Github },
     ],
   },
 ]

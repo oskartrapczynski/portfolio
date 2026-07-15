@@ -43,13 +43,13 @@ export const ExperienceCard = ({ exp }: { exp: Experience }) => (
 
     <CardContent className="space-y-5">
       <ul className="space-y-1.5">
-        {exp.duties.map((duty) => (
+        {exp.highlights.map((highlight) => (
           <li
-            key={duty}
+            key={highlight}
             className="flex gap-2 text-sm leading-relaxed text-gray-400"
           >
             <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--accent)]" />
-            {duty}
+            {highlight}
           </li>
         ))}
       </ul>

@@ -3,11 +3,13 @@ import { ArrowLeft, MapPin, Clock } from 'lucide-react'
 import { Card } from '../ui/card'
 import { Reveal, SectionTitle, Tag } from './ui'
 import { ExperienceCard } from './ExperienceCard'
+import { SideProjectCard } from './SideProjectCard'
 import {
   ACCENT,
   PROFILE,
   TECH_STACK,
   EXPERIENCES,
+  SIDE_PROJECTS,
   EDUCATION,
   LANGUAGES,
   CERTIFICATIONS,
@@ -124,6 +126,18 @@ export const Programming = () => {
             {EXPERIENCES.map((exp, i) => (
               <Reveal key={`${exp.role}-${exp.period}`} delay={i * 0.05}>
                 <ExperienceCard exp={exp} />
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Side Projects ──────────────────────────────────────── */}
+        <section className={sectionClass}>
+          <SectionTitle>Side Projects</SectionTitle>
+          <div className="space-y-6">
+            {SIDE_PROJECTS.map((project, i) => (
+              <Reveal key={project.name} delay={i * 0.05}>
+                <SideProjectCard project={project} />
               </Reveal>
             ))}
           </div>
