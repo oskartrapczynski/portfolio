@@ -21,7 +21,9 @@ export const SideProjectCard = ({ project }: { project: SideProject }) => (
               {project.name}
             </h3>
             {project.tagline && (
-              <p className="font-mono text-sm text-gray-400">{project.tagline}</p>
+              <p className="font-mono text-sm text-gray-400">
+                {project.tagline}
+              </p>
             )}
           </div>
         </div>

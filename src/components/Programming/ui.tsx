@@ -15,7 +15,12 @@ type RevealProps = {
 }
 
 // Jednolite wejście „od dołu" gdy element wjeżdża w widok (jak reszta strony).
-export const Reveal = ({ children, className, delay = 0, y = 24 }: RevealProps) => (
+export const Reveal = ({
+  children,
+  className,
+  delay = 0,
+  y = 24,
+}: RevealProps) => (
   <motion.div
     className={className}
     initial={{ opacity: 0, y }}
@@ -50,7 +55,10 @@ export const SectionTitle = ({ icon: Icon, children }: SectionTitleProps) => (
 // w Hero — kontener rodzica neutralizuje padding przez `-m-1`.
 export const Tag = ({ children }: { children: ReactNode }) => (
   <div className="skill-tag-wrap p-1">
-    <Badge variant="outline" className="skill-tag px-3 py-1 text-sm font-normal">
+    <Badge
+      variant="outline"
+      className="skill-tag px-3 py-1 text-sm font-normal"
+    >
       {children}
     </Badge>
   </div>
