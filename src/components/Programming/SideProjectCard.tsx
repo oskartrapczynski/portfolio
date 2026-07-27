@@ -52,9 +52,7 @@ export const SideProjectCard = ({ project }: { project: SideProject }) => (
 
       <div className="-m-1 flex flex-wrap">
         {project.stack.map((tech) => (
-          <div key={tech} className="p-1">
-            <Tag>{tech}</Tag>
-          </div>
+          <Tag key={tech}>{tech}</Tag>
         ))}
       </div>
 

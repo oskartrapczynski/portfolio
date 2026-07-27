@@ -56,9 +56,7 @@ export const ExperienceCard = ({ exp }: { exp: Experience }) => (
 
       <div className="-m-1 flex flex-wrap">
         {exp.stack.map((tech) => (
-          <div key={tech} className="p-1">
-            <Tag>{tech}</Tag>
-          </div>
+          <Tag key={tech}>{tech}</Tag>
         ))}
       </div>
     </CardContent>

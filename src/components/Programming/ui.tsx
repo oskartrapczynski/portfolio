@@ -46,11 +46,12 @@ export const SectionTitle = ({ icon: Icon, children }: SectionTitleProps) => (
 )
 
 // Tag oparty o ten sam wygląd co badge'y skilli w Hero (.skill-tag + --accent).
+// Wrapper `.skill-tag-wrap` (p-1, stykające się) włącza per-tagowy hover tak jak
+// w Hero — kontener rodzica neutralizuje padding przez `-m-1`.
 export const Tag = ({ children }: { children: ReactNode }) => (
-  <Badge
-    variant="outline"
-    className="skill-tag px-3 py-1 text-sm font-normal"
-  >
-    {children}
-  </Badge>
+  <div className="skill-tag-wrap p-1">
+    <Badge variant="outline" className="skill-tag px-3 py-1 text-sm font-normal">
+      {children}
+    </Badge>
+  </div>
 )
