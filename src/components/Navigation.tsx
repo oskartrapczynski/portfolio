@@ -174,7 +174,7 @@ export const Navigation = () => {
                 >
                   {/* Lift na hover w CSS na wewnętrznym spanie — motion.a ma
                       wejście z opóźnieniem (delay), które psułoby powrót z whileHover */}
-                  <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-1">
+                  <span className="inline-block transition-transform duration-300 ease-in-out group-hover:-translate-y-0.5">
                     {label}
                   </span>
                 </motion.a>
