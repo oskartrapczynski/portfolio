@@ -3,8 +3,8 @@ import { easeOut, motion } from 'framer-motion'
 import { Badge } from '../ui/badge'
 
 /**
- * Wspólne klocki podstrony „Programming". Trzymamy tu prezentację, której nie
- * ma sensu duplikować w każdej sekcji (reveal na scroll, nagłówek, tag).
+ * Wspólne klocki podstron portfolio. Trzymamy tu prezentację, której nie ma
+ * sensu duplikować w każdej sekcji (reveal na scroll, nagłówek, tag).
  */
 
 type RevealProps = {

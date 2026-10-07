@@ -1,47 +1,64 @@
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader } from '../ui/card'
-import { Rocket, Calendar } from 'lucide-react'
-import type { SideProject } from './programming.data'
+import { Calendar, Clapperboard } from 'lucide-react'
 import { Tag } from '../shared/ui'
+import { YouTubeEmbed } from './YouTubeEmbed'
+import type { VideoWork } from './graphics3d.data'
 
 /**
- * Pojedyncza karta side-projectu. Wygląd spójny z ExperienceCard
- * (.skill-card + --accent), żeby cała strona trzymała ten sam język wizualny.
+ * Karta pojedynczej pracy 3D: odtwarzacz na górze, meta pod spodem.
+ * Układ i klasy spójne z SideProjectCard, żeby obie podstrony czytały się tak
+ * samo.
  */
-export const SideProjectCard = ({ project }: { project: SideProject }) => (
+
+type VideoCardProps = {
+  work: VideoWork
+  playing: boolean
+  onPlay: () => void
+}
+
+export const VideoCard = ({ work, playing, onPlay }: VideoCardProps) => (
   <Card className="skill-card group relative overflow-hidden rounded-xl backdrop-blur-sm">
-    <CardHeader className="space-y-3 pb-4">
+    <div className="p-3 md:p-4">
+      <YouTubeEmbed
+        id={work.youtubeId}
+        title={work.title}
+        kind={work.kind}
+        duration={work.duration}
+        poster={work.poster}
+        playing={playing}
+        onPlay={onPlay}
+      />
+    </div>
+
+    <CardHeader className="space-y-3 pt-3 pb-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <span className="skill-icon shrink-0 rounded-lg p-2.5">
-            <Rocket className="h-5 w-5" />
+            <Clapperboard className="h-5 w-5" />
           </span>
           <div>
             <h3 className="font-mono text-lg font-bold text-[var(--accent)]">
-              {project.name}
+              {work.title}
             </h3>
-            {project.tagline && (
-              <p className="font-mono text-sm text-gray-400">
-                {project.tagline}
-              </p>
-            )}
+            <p className="font-mono text-sm text-gray-400">
+              {work.kind} · {work.duration}
+            </p>
           </div>
         </div>
 
-        {project.period && (
-          <span className="flex items-center gap-1.5 font-mono text-xs text-gray-400">
-            <Calendar className="h-3.5 w-3.5" />
-            {project.period}
-          </span>
-        )}
+        <span className="flex items-center gap-1.5 font-mono text-xs text-gray-400">
+          <Calendar className="h-3.5 w-3.5" />
+          {work.period}
+        </span>
       </div>
 
-      <p className="text-sm leading-relaxed text-gray-300">{project.summary}</p>
+      <p className="text-sm leading-relaxed text-gray-300">{work.summary}</p>
     </CardHeader>
 
     <CardContent className="space-y-5">
       <ul className="space-y-1.5">
-        {project.highlights.map((highlight) => (
+        {work.highlights.map((highlight) => (
           <li
             key={highlight}
             className="flex gap-2 text-sm leading-relaxed text-gray-400"
@@ -53,14 +70,14 @@ export const SideProjectCard = ({ project }: { project: SideProject }) => (
       </ul>
 
       <div className="-m-1 flex flex-wrap">
-        {project.stack.map((tech) => (
+        {work.stack.map((tech) => (
           <Tag key={tech}>{tech}</Tag>
         ))}
       </div>
 
-      {project.links && project.links.length > 0 && (
+      {work.links && work.links.length > 0 && (
         <div className="flex flex-wrap gap-3">
-          {project.links.map(({ label, href, icon: Icon }) => (
+          {work.links.map(({ label, href, icon: Icon }) => (
             <motion.a
               key={label}
               href={href}

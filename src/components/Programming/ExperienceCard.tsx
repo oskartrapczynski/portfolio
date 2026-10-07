@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from '../ui/card'
 import { Briefcase, Calendar } from 'lucide-react'
 import type { Experience } from './programming.data'
-import { Tag } from './ui'
+import { Tag } from '../shared/ui'
 
 /**
  * Pojedyncza pozycja doświadczenia z CV. Wygląd spójny z kartami skilli

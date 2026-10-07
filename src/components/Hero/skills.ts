@@ -75,7 +75,7 @@ const graphic3d: Skill = {
   ],
   accent: '#ff8200',
   scrollLink: false,
-  href: '/wip',
+  href: '/3d-graphics',
 }
 
 const videoEditing: Skill = {

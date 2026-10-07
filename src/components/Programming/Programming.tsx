@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowLeft, MapPin, Clock } from 'lucide-react'
 import { Card } from '../ui/card'
-import { Reveal, SectionTitle, Tag } from './ui'
+import { Reveal, SectionTitle, Tag } from '../shared/ui'
 import { ExperienceCard } from './ExperienceCard'
 import { SideProjectCard } from './SideProjectCard'
 import {

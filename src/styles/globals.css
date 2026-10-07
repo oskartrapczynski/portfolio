@@ -211,6 +211,47 @@ html {
     border-color: color-mix(in srgb, var(--accent) 45%, transparent);
   }
 }
+/* Poster odtwarzacza (facade YouTube) — gradient w akcencie zamiast miniatury.
+   Używany, gdy praca nie ma własnego kadru (VideoWork.poster). */
+.video-poster {
+  background:
+    radial-gradient(
+      115% 115% at 50% 0%,
+      color-mix(in srgb, var(--accent) 20%, transparent),
+      transparent 62%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.92));
+  transition: background 0.35s ease;
+}
+
+.video-play {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, rgba(0, 0, 0, 0.5));
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+@media (hover: hover) {
+  .video-poster:hover {
+    background:
+      radial-gradient(
+        115% 115% at 50% 0%,
+        color-mix(in srgb, var(--accent) 32%, transparent),
+        transparent 66%
+      ),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9));
+  }
+
+  .video-poster:hover .video-play {
+    background: color-mix(in srgb, var(--accent) 18%, rgba(0, 0, 0, 0.45));
+    box-shadow: 0 0 34px color-mix(in srgb, var(--accent) 40%, transparent);
+    transform: scale(1.06);
+  }
+}
+
 /* Social links — brandowy accent per platforma (zmienna --accent) */
 .social-link {
   color: rgba(0, 255, 255, 0.6);

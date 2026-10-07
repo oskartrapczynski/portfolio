@@ -1,4 +1,3 @@
-import { type ComponentType } from 'react'
 import {
   Mail,
   Phone,
@@ -17,8 +16,12 @@ import {
   Sparkles,
   ExternalLink,
 } from 'lucide-react'
-
-type Icon = ComponentType<{ className?: string }>
+import type {
+  Icon,
+  ProjectBase,
+  ProjectLink,
+  SkillGroup,
+} from '../shared/types'
 
 // commercial exp
 
@@ -426,12 +429,6 @@ export const PROFILE = {
   ] satisfies ProfileLink[],
 }
 
-export type SkillGroup = {
-  label: string
-  icon: Icon
-  items: string[]
-}
-
 export const TECH_STACK: SkillGroup[] = [
   {
     label: 'Languages',
@@ -511,14 +508,6 @@ export const TECH_STACK: SkillGroup[] = [
   },
 ]
 
-// Pola wspólne dla wpisów doświadczenia i side-projectów — reużywane niżej.
-export type ProjectBase = {
-  period: string
-  summary: string
-  highlights: string[]
-  stack: string[]
-}
-
 export type Experience = ProjectBase & {
   role: string
   domain?: string
@@ -535,16 +524,10 @@ export const EXPERIENCES: Experience[] = [
   softwareDevelopmentProgram,
 ]
 
-export type SideProjectLink = {
-  label: string
-  href: string
-  icon: Icon
-}
-
 export type SideProject = ProjectBase & {
   name: string
   tagline?: string
-  links?: SideProjectLink[]
+  links?: ProjectLink[]
 }
 
 // Zamockowane przykłady — uzupełnij / podmień własnymi projektami.
