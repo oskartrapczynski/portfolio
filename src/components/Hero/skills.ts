@@ -27,25 +27,25 @@ const programing: Skill = {
   href: '/programming',
 }
 
-const djing: Skill = {
+export const djing: Skill = {
   label: 'DJing',
   icon: Disc3,
   items: ['Festivals', 'Clubs', 'Sport & TV events', 'Karaoke', 'Weddings'],
   accent: '#ff2d95',
   scrollLink: false,
-  href: '/wip',
+  href: '/djing',
 }
 
-const musicProduction: Skill = {
+export const musicProduction: Skill = {
   label: 'Music Production',
   icon: Music,
   items: ['FL Studio', 'Sound Design', 'Mixing', 'Mastering'],
   accent: '#a78bfa',
   scrollLink: false,
-  href: '/wip',
+  href: '/music-production',
 }
 
-const graphic2d: Skill = {
+export const graphic2d: Skill = {
   label: '2D Graphics',
   icon: Palette,
   items: [
@@ -59,7 +59,7 @@ const graphic2d: Skill = {
   ],
   accent: '#fbbf24',
   scrollLink: false,
-  href: '/wip',
+  href: '/2d-graphics',
 }
 
 const graphic3d: Skill = {
@@ -78,13 +78,13 @@ const graphic3d: Skill = {
   href: '/3d-graphics',
 }
 
-const videoEditing: Skill = {
+export const videoEditing: Skill = {
   label: 'Video Editing',
   icon: Film,
   items: ['Premiere Pro', 'After Effects', 'Music Videos', 'Advertisements'],
   accent: '#00ff41ff',
   scrollLink: false,
-  href: '/wip',
+  href: '/video-editing',
 }
 
 export const SKILLS: Skill[] = [

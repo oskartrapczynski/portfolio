@@ -1,0 +1,57 @@
+---
+// Wspólna strona „Work in progress” dla podstron bez własnej treści
+// (/djing, /music-production, /2d-graphics, /video-editing).
+import Layout from '../Layout.astro'
+import { Navigation } from '../Navigation'
+import { Footer } from '../Footer'
+import type { Skill } from '../Hero/skills'
+
+interface Props {
+  skill: Skill
+}
+
+const { skill } = Astro.props
+---
+
+<Layout title={`${skill.label} - Oskar T.T`}>
+  <!-- Strona na wysokość ekranu (svh = z widocznym paskiem przeglądarki na mobile),
+       bez scrolla: navbar fixed (h-16) kompensuje pt-16, treść wypełnia resztę nad stopką.
+       --hero-accent na <main>, żeby border navbara, stopka i treść miały kolor skilla. -->
+  <main
+    class="relative flex h-svh flex-col overflow-hidden bg-background"
+    style={`--hero-accent: ${skill.accent}`}
+  >
+    <Navigation client:load />
+
+    <section
+      class="relative flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden px-4 pt-16 text-center"
+    >
+      <div class="grid-bg absolute inset-0 opacity-20"></div>
+
+      <div class="relative z-10 flex flex-col items-center gap-6">
+        <p class="font-mono text-sm tracking-[0.3em] text-gray-500 uppercase">
+          {`< ${skill.label} — coming soon >`}
+        </p>
+
+        <h1
+          class="font-mono text-5xl font-bold text-[var(--hero-accent)] md:text-7xl"
+        >
+          Work in progress
+        </h1>
+
+        <p class="max-w-md font-mono text-base text-gray-300 md:text-lg">
+          This section is still under construction. Check back soon.
+        </p>
+
+        <a
+          href="/#hero"
+          class="mt-4 rounded-full border border-[color-mix(in_srgb,var(--hero-accent)_40%,transparent)] px-6 py-2 font-mono text-[var(--hero-accent)] transition-colors duration-300 hover:bg-[color-mix(in_srgb,var(--hero-accent)_10%,transparent)]"
+        >
+          ← Back to homepage
+        </a>
+      </div>
+    </section>
+
+    <Footer client:load />
+  </main>
+</Layout>

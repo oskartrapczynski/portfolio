@@ -25,12 +25,10 @@ const DOT_MAX_STRETCH = 10
 
 const noopSubscribe = () => () => {}
 
-// Aktywny tab z pathname (na serwerze null, ustalany po hydracji). Pomijamy hrefy
-// współdzielone przez kilka zakładek (np. /wip), żeby nie świeciło kilku kropek.
+// Aktywny tab z pathname (na serwerze null, ustalany po hydracji).
 const getActiveHref = () => {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
-  const matches = NAV_ITEMS.filter(({ href }) => href === path)
-  return matches.length === 1 ? path : null
+  return NAV_ITEMS.some(({ href }) => href === path) ? path : null
 }
 
 export const Navigation = () => {
@@ -45,7 +43,7 @@ export const Navigation = () => {
     NAV_ITEMS.find(({ href }) => href === activeHref)?.label ?? null
   // Jedna kropka dla całego desktopowego menu: stoi pod aktywnym linkiem,
   // na hover przesuwa się (x) i zmienia kolor pod najechany link, po zjechaniu
-  // z menu wraca. Bez aktywnego linku (np. /wip) pokazuje się tylko na hover —
+  // z menu wraca. Bez aktywnego linku (np. 404) pokazuje się tylko na hover —
   // wtedy `slide` = false przy wejściu z zewnątrz, żeby nie jechała z poprzedniej
   // pozycji, tylko pojawiła się pod linkiem.
   const [hover, setHover] = useState<{

@@ -151,7 +151,7 @@ export const CROSS_LINKS: CrossLink[] = [
     title: 'Music Production',
     description:
       'The remix under the visualiser above comes from the same desk — production, mixing and mastering in FL Studio.',
-    href: '/wip',
+    href: '/music-production',
     icon: Music4,
   },
 ]
