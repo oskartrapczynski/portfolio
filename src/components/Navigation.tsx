@@ -1,4 +1,10 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useVelocity,
+} from 'framer-motion'
 import {
   useState,
   useEffect,
@@ -11,6 +17,11 @@ import { scrollToTarget } from '../lib/scroll'
 import { NAV_ITEMS } from './Hero/skills'
 
 const DOT_SIZE = 6 // px, h-1.5 / w-1.5
+
+// Rozciąganie kropki w ruchu: scaleX rośnie z prędkością sprężyny
+// (px/s → +1 szerokości co DOT_STRETCH_PER_SPEED), maks. DOT_MAX_STRETCH.
+const DOT_STRETCH_PER_SPEED = 150
+const DOT_MAX_STRETCH = 10
 
 const noopSubscribe = () => () => {}
 
@@ -71,6 +82,21 @@ export const Navigation = () => {
   const dotColor =
     NAV_ITEMS.find(({ label }) => label === dotLabel)?.accent ??
     NAV_ITEMS[0].accent
+  // x kropki jako sprężyna; z jej prędkości liczymy rozciągnięcie (scaleX).
+  // Wejście z zewnątrz (slide = false) — jump bez animacji i bez rozciągania.
+  const dotXSpring = useSpring(0, { stiffness: 400, damping: 30 })
+  const dotScaleX = useTransform(
+    useVelocity(dotXSpring),
+    (v) =>
+      1 + Math.min(Math.abs(v) / DOT_STRETCH_PER_SPEED, DOT_MAX_STRETCH - 1)
+  )
+
+  useEffect(() => {
+    if (dotX === undefined) return
+    if (hover.slide) dotXSpring.set(dotX)
+    else dotXSpring.jump(dotX)
+  }, [dotX, hover.slide, dotXSpring])
+
   const { scrollY } = useScroll()
   const backgroundColor = useTransform(
     scrollY,
@@ -139,7 +165,7 @@ export const Navigation = () => {
                       slide: prev.label !== null || activeLabel !== null,
                     }))
                   }
-                  className={`relative font-mono transition-colors duration-300 ${
+                  className={`group relative font-mono transition-colors duration-300 ${
                     href === activeHref
                       ? 'text-[var(--tab-accent)]'
                       : 'text-gray-300'
@@ -148,22 +174,23 @@ export const Navigation = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  {label}
+                  {/* Lift na hover w CSS na wewnętrznym spanie — motion.a ma
+                      wejście z opóźnieniem (delay), które psułoby powrót z whileHover */}
+                  <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-1">
+                    {label}
+                  </span>
                 </motion.a>
               ))}
               <motion.span
                 aria-hidden
                 className="pointer-events-none absolute left-0 -bottom-2.5 !ml-0 h-1.5 w-1.5 rounded-full"
+                style={{ x: dotXSpring, scaleX: dotScaleX }}
                 initial={false}
                 animate={{
-                  x: dotX ?? 0,
                   backgroundColor: dotColor,
                   opacity: dotVisible ? 1 : 0,
                 }}
                 transition={{
-                  x: hover.slide
-                    ? { type: 'spring', stiffness: 400, damping: 30 }
-                    : { duration: 0 },
                   backgroundColor: { duration: 0.3 },
                   opacity: { duration: 0.2 },
                 }}
