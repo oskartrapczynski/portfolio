@@ -13,14 +13,11 @@ interface Props {
 const { skill } = Astro.props
 ---
 
-<Layout title={`${skill.label} - Oskar T.T`}>
+<Layout title={`${skill.label} - Oskar T.T`} accent={skill.accent}>
   <!-- Strona na wysokość ekranu (svh = z widocznym paskiem przeglądarki na mobile),
        bez scrolla: navbar fixed (h-16) kompensuje pt-16, treść wypełnia resztę nad stopką.
-       --hero-accent na <main>, żeby border navbara, stopka i treść miały kolor skilla. -->
-  <main
-    class="relative flex h-svh flex-col overflow-hidden bg-background"
-    style={`--hero-accent: ${skill.accent}`}
-  >
+       Kolor skilla (--hero-accent) ustawia Layout na <html>. -->
+  <main class="relative flex h-svh flex-col overflow-hidden bg-background">
     <Navigation client:load />
 
     <section

@@ -7,15 +7,11 @@ import { Footer } from '../components/Footer'
 import { ACCENT } from '../components/Graphics3D/graphics3d.data'
 ---
 
-<Layout title="3D Graphics - Oskar T.T">
+<Layout title="3D Graphics - Oskar T.T" accent={ACCENT}>
   <!-- Płynny scroll (Lenis). Usuń tę linię, by wyłączyć. -->
   <SmoothScroll client:load />
 
-  <!-- --hero-accent na <main>, żeby border navbara i stopka też były pomarańczowe -->
-  <main
-    class="relative overflow-x-clip bg-background"
-    style={`--hero-accent: ${ACCENT}`}
-  >
+  <main class="relative overflow-x-clip bg-background">
     <Navigation client:load />
     <Graphics3D client:load />
     <Footer client:load />
