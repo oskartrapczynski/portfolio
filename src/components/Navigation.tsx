@@ -59,7 +59,7 @@ export const Navigation = () => {
                 <motion.a
                   key={label}
                   href={href}
-                  className="text-gray-300 hover:text-neon-cyan transition-colors duration-300 font-mono"
+                  className="text-gray-300 hover:text-[var(--nav-hover,#00ffff)] transition-colors duration-300 font-mono"
                   whileHover={{ scale: 1.1, transition: { delay: 0 } }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, y: -20 }}
@@ -98,7 +98,7 @@ export const Navigation = () => {
             <a
               key={label}
               href={href}
-              className="text-gray-300 hover:text-neon-cyan transition-colors duration-300 font-mono text-lg py-2"
+              className="text-gray-300 hover:text-[var(--nav-hover,#00ffff)] transition-colors duration-300 font-mono text-lg py-2"
             >
               {label}
             </a>
