@@ -1,12 +1,76 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import {
+  useState,
+  useEffect,
+  useRef,
+  useSyncExternalStore,
+  type CSSProperties,
+} from 'react'
 import { Menu, X } from 'lucide-react'
 import { scrollToTarget } from '../lib/scroll'
 import { NAV_ITEMS } from './Hero/skills'
 
+const DOT_SIZE = 6 // px, h-1.5 / w-1.5
+
+const noopSubscribe = () => () => {}
+
+// Aktywny tab z pathname (na serwerze null, ustalany po hydracji). Pomijamy hrefy
+// współdzielone przez kilka zakładek (np. /wip), żeby nie świeciło kilku kropek.
+const getActiveHref = () => {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/'
+  const matches = NAV_ITEMS.filter(({ href }) => href === path)
+  return matches.length === 1 ? path : null
+}
+
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const activeHref = useSyncExternalStore(
+    noopSubscribe,
+    getActiveHref,
+    () => null
+  )
+  const activeLabel =
+    NAV_ITEMS.find(({ href }) => href === activeHref)?.label ?? null
+  // Jedna kropka dla całego desktopowego menu: stoi pod aktywnym linkiem,
+  // na hover przesuwa się (x) i zmienia kolor pod najechany link, po zjechaniu
+  // z menu wraca. Bez aktywnego linku (np. /wip) pokazuje się tylko na hover —
+  // wtedy `slide` = false przy wejściu z zewnątrz, żeby nie jechała z poprzedniej
+  // pozycji, tylko pojawiła się pod linkiem.
+  const [hover, setHover] = useState<{
+    label: string | null
+    last: string | null
+    slide: boolean
+  }>({ label: null, last: null, slide: false })
+  // Środki linków (offsetLeft) mierzone ResizeObserverem — łapie też zmianę
+  // szerokości po załadowaniu fontu.
+  const linksRef = useRef<HTMLDivElement>(null)
+  const [dotXs, setDotXs] = useState<Record<string, number>>({})
+
+  useEffect(() => {
+    const container = linksRef.current
+    if (!container) return
+    const measure = () => {
+      const xs: Record<string, number> = {}
+      container
+        .querySelectorAll<HTMLAnchorElement>('a[data-label]')
+        .forEach((link) => {
+          xs[link.dataset.label!] =
+            link.offsetLeft + link.offsetWidth / 2 - DOT_SIZE / 2
+        })
+      setDotXs(xs)
+    }
+    const observer = new ResizeObserver(measure)
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [])
+
+  const dotLabel = hover.label ?? activeLabel ?? hover.last
+  const dotX = dotLabel !== null ? dotXs[dotLabel] : undefined
+  const dotVisible = (hover.label ?? activeLabel) !== null && dotX !== undefined
+  const dotColor =
+    NAV_ITEMS.find(({ label }) => label === dotLabel)?.accent ??
+    NAV_ITEMS[0].accent
   const { scrollY } = useScroll()
   const backgroundColor = useTransform(
     scrollY,
@@ -54,14 +118,32 @@ export const Navigation = () => {
             </motion.a>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {NAV_ITEMS.map(({ label, href }, index) => (
+            <div
+              ref={linksRef}
+              className="relative hidden md:flex items-center space-x-8"
+              onMouseLeave={() =>
+                setHover((prev) => ({ ...prev, label: null, slide: true }))
+              }
+            >
+              {NAV_ITEMS.map(({ label, href, accent }, index) => (
                 <motion.a
                   key={label}
                   href={href}
-                  className="text-gray-300 hover:text-[var(--nav-hover,#00ffff)] transition-colors duration-300 font-mono"
-                  whileHover={{ scale: 1.1, transition: { delay: 0 } }}
-                  whileTap={{ scale: 0.95 }}
+                  aria-current={href === activeHref ? 'page' : undefined}
+                  style={{ '--tab-accent': accent } as CSSProperties}
+                  data-label={label}
+                  onMouseEnter={() =>
+                    setHover((prev) => ({
+                      label,
+                      last: label,
+                      slide: prev.label !== null || activeLabel !== null,
+                    }))
+                  }
+                  className={`relative font-mono transition-colors duration-300 ${
+                    href === activeHref
+                      ? 'text-[var(--tab-accent)]'
+                      : 'text-gray-300'
+                  }`}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
@@ -69,6 +151,23 @@ export const Navigation = () => {
                   {label}
                 </motion.a>
               ))}
+              <motion.span
+                aria-hidden
+                className="pointer-events-none absolute left-0 -bottom-2.5 !ml-0 h-1.5 w-1.5 rounded-full"
+                initial={false}
+                animate={{
+                  x: dotX ?? 0,
+                  backgroundColor: dotColor,
+                  opacity: dotVisible ? 1 : 0,
+                }}
+                transition={{
+                  x: hover.slide
+                    ? { type: 'spring', stiffness: 400, damping: 30 }
+                    : { duration: 0 },
+                  backgroundColor: { duration: 0.3 },
+                  opacity: { duration: 0.2 },
+                }}
+              />
             </div>
 
             {/* Mobile menu button */}
@@ -94,13 +193,20 @@ export const Navigation = () => {
         className="fixed top-16 right-0 bottom-0 w-64 bg-black/95 backdrop-blur-md border-l border-neon-cyan/30 z-40 md:hidden"
       >
         <div className="flex flex-col p-6 space-y-4">
-          {NAV_ITEMS.map(({ label, href }) => (
+          {NAV_ITEMS.map(({ label, href, accent }) => (
             <a
               key={label}
               href={href}
-              className="text-gray-300 hover:text-[var(--nav-hover,#00ffff)] transition-colors duration-300 font-mono text-lg py-2"
+              aria-current={href === activeHref ? 'page' : undefined}
+              style={{ '--tab-accent': accent } as CSSProperties}
+              className={`group flex items-center gap-2 font-mono text-lg py-2 transition-colors duration-300 ${
+                href === activeHref
+                  ? 'text-[var(--tab-accent)]'
+                  : 'text-gray-300'
+              }`}
             >
               {label}
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--tab-accent)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             </a>
           ))}
         </div>

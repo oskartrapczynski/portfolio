@@ -11,10 +11,10 @@ import { ACCENT } from '../components/Graphics3D/graphics3d.data'
   <!-- Płynny scroll (Lenis). Usuń tę linię, by wyłączyć. -->
   <SmoothScroll client:load />
 
-  <!-- --hero-accent i --nav-hover na <main>, żeby border i hover navbara oraz stopka też były pomarańczowe -->
+  <!-- --hero-accent na <main>, żeby border navbara i stopka też były pomarańczowe -->
   <main
     class="relative overflow-x-clip bg-background"
-    style={`--hero-accent: ${ACCENT}; --nav-hover: ${ACCENT}`}
+    style={`--hero-accent: ${ACCENT}`}
   >
     <Navigation client:load />
     <Graphics3D client:load />

@@ -96,4 +96,7 @@ export const SKILLS: Skill[] = [
   videoEditing,
 ]
 
-export const NAV_ITEMS = [{ label: 'Home', href: '/' }, ...SKILLS]
+export const NAV_ITEMS = [
+  { label: 'Home', href: '/', accent: '#00ffff' },
+  ...SKILLS,
+]
