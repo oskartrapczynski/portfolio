@@ -441,9 +441,10 @@ export const PROFILE = {
   name: 'Oskar Trąpczyński',
   role: 'Fullstack Developer (TypeScript / Python)',
   location: 'Katowice, Poland',
-  experience: '2+ years of commercial experience',
+  experience:
+    '3 years of commercial experience with 3+ years of freelancing experience',
   summary:
-    'Fullstack Developer (TypeScript / Python) with 2+ years of commercial experience building web, mobile and AI-powered applications for FinTech, BioTech and SaaS clients from the UK, US, Sweden and Poland. I work across the whole product, from Next.js and React Native frontends, through type-safe APIs and async workflows, to cloud infrastructure on GCP and AWS. After hours I build a real-time multiplayer browser game with custom netcode and WebGPU rendering. Fluent in English, used daily in direct collaboration with clients and stakeholders in remote, international teams.',
+    'Fullstack Developer (TypeScript / Python) with 3 years of commercial experience and 3+ years of freelancing experience, building web, mobile and AI-powered applications for FinTech, BioTech and SaaS clients from the UK, US, Sweden and Poland. I work across the whole product, from Next.js and React Native frontends, through type-safe APIs and async workflows, to cloud infrastructure on GCP and AWS. After hours I build a real-time multiplayer browser game with custom netcode and WebGPU rendering. Fluent in English, used daily in direct collaboration with clients and stakeholders in remote, international teams.',
   links: [
     {
       label: 'Email',
