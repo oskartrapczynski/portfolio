@@ -444,7 +444,7 @@ export const PROFILE = {
   experience:
     '3 years of commercial experience with 3+ years of freelancing experience',
   summary:
-    'Fullstack Developer (TypeScript / Python) with 3 years of commercial experience and 3+ years of freelancing experience, building web, mobile and AI-powered applications for FinTech, BioTech and SaaS clients from the UK, US, Sweden and Poland. I work across the whole product, from Next.js and React Native frontends, through type-safe APIs and async workflows, to cloud infrastructure on GCP and AWS. After hours I build a real-time multiplayer browser game with custom netcode and WebGPU rendering. Fluent in English, used daily in direct collaboration with clients and stakeholders in remote, international teams.',
+    'Fullstack Developer (TypeScript / Python) with 6 years of combined commercial work, running freelance projects in parallel with full-time software house roles for clients from the UK, US, Sweden and Poland. I designed the E2E test architecture with observability for a Swedish FinTech, built scripts that run biological experiments for a US biotech platform and created a 3D AI virtual assistant for a UK financial advice company. For small businesses I deliver custom CMS platforms, SEO landing pages and a Google Maps route optimizer. I’m also the founder of a real-time multiplayer browser game with WebTransport netcode and WebGPU rendering. Fluent in English, working directly with international clients.',
   links: [
     {
       label: 'Email',
