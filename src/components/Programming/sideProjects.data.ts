@@ -68,23 +68,48 @@ const pttkCmsProject: SideProject = {
 
 const wykominujProject: SideProject = {
   name: 'Wykominuj',
-  tagline: 'Local business site',
+  tagline: 'Local business site & route planner',
   period: '2025 — Present',
   summary:
-    'Marketing and service site for a chimney-sweeping company in the Katowice region, built solo and running in production at wykominuj.pl.',
+    'Monorepo for a chimney-sweeping company in the Katowice region, built solo: a marketing site running in production at wykominuj.pl and a route planner that turns client visits into optimized weekly schedules.',
   highlights: [
-    'Built a static Astro site with React islands hydrating galleries and accordions only on view',
-    'Implemented local SEO with ChimneySweep and BreadcrumbList JSON-LD, canonical URLs and a generated sitemap',
-    'Designed a Sharp build pipeline emitting WebP thumbnail and full-size variants for 60 gallery photos',
+    'Built a static Astro site with React islands hydrating galleries and accordions only on view, a lightweight hero video and a Sharp pipeline emitting WebP variants for 60 gallery photos',
+    'Implemented local SEO with ChimneySweep and BreadcrumbList JSON-LD, canonical URLs, a generated sitemap and llms.txt',
+    'Built a contact form on Pages Functions with validation shared between frontend and backend, Resend delivery and layered anti-spam including Turnstile',
+    'Modeled weekly planning as a Vehicle Routing Problem (each day a vehicle, each client a visit) on Cloudflare Workers with the Google Route Optimization API',
+    'When the owner reported shorter manual routes, built a result-explanation panel and a route comparison; the diagnosis pinpointed a solver penalty that added 11% distance in a test',
+    'Built the planner UI with React 19, TanStack Query, Google Maps and Hono RPC: week and day views, manual adjustments and navigation deep links',
+    'Enforced server-side roles with Cloudflare Access JWTs and an employee panel synced with Access, plus a Workbox PWA with offline field preview and data clearing on logout',
+    'Added custom API cost guards below free-tier limits (D1, Cloud Monitoring) and a pnpm monorepo with 168 tests and GitHub Actions running migrations before deploy',
   ],
-  stack: ['TypeScript', 'Astro', 'React', 'Tailwind', 'Radix UI', 'Sharp'],
+  stack: [
+    'TypeScript',
+    'Astro',
+    'React',
+    'Tailwind',
+    'Radix UI',
+    'Sharp',
+    'Hono',
+    'TanStack Query',
+    'Google Maps',
+    'Route Optimization API',
+    'Cloudflare Workers',
+    'Cloudflare Pages',
+    'Cloudflare D1',
+    'Cloudflare Access',
+    'Resend',
+    'Turnstile',
+    'Workbox',
+    'pnpm',
+    'GitHub Actions',
+  ],
   links: [{ label: 'Live', href: 'https://wykominuj.pl', icon: ExternalLink }],
 }
 
 const youtubeConverterProject: SideProject = {
   name: 'Youtube converter/downloader',
   tagline: 'Desktop YouTube downloader',
-  period: '2024 — Present',
+  period: '2024 — Present (maintenance)',
   summary:
     'Cross-platform desktop app for downloading YouTube audio, video, and playlists, built solo. Wraps a bundled yt-dlp toolchain behind a React UI with format, quality, and resolution presets.',
   highlights: [
