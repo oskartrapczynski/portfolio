@@ -206,7 +206,7 @@ const musicVideoAIGeneratorProject: SideProject = {
 const mebelprojektProject: SideProject = {
   name: 'Mebelprojekt',
   tagline: 'Furniture studio site',
-  period: '2023 — Present',
+  period: '2023 — Present (maintenance)',
   summary:
     'Marketing site for MEBELPROJEKT AG, a Polish custom furniture workshop operating since 1996. Built and maintained solo, running in production on the company domain.',
   highlights: [
