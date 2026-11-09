@@ -636,7 +636,6 @@ export const CERTIFICATIONS = {
   icon: Award,
   items: [
     'Anthropic Academy courses',
-    'AWS Certified Developer Associate',
     'MongoDB Basics',
     'Cisco CCNA & Essentials',
   ],
