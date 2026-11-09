@@ -13,7 +13,7 @@ const fintechSaasProject: Experience = {
   domain: 'FinTech',
   flag: '🇸🇪',
   company: 'The Codest',
-  period: 'Aug 2026 — Present',
+  period: 'Aug 2026 — Oct 2026',
   current: true,
   summary:
     'Developing a B2B FinTech SaaS platform spanning a web application, a cross-platform mobile app and a browser extension within a TypeScript/Python monorepo. Focusing on AI-powered document processing, durable background workflows and integrations with financial and third-party services.',
